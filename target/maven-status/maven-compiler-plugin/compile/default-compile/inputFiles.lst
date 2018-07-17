@@ -1,0 +1,8 @@
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/util/CallXDateTimeConverterUtil.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/util/ResultSetMapper.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/util/AthenaQuerysList.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/dto/GeneralReportDTO.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/handlers/Request.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/handlers/CampaignReportsHandler.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/handlers/OffersReportsHandler.java
+/home/jayaram/Documents/CALLX/analytics/ServerlessReports/src/main/java/com/callx/amazonaws/lambda/util/JDBCConnection.java
