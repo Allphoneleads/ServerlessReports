@@ -13,6 +13,9 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import com.amazonaws.services.lambda.runtime.Context;
+import com.callx.amazonaws.lambda.handlers.Request;
+
 public class CallXDateTimeConverterUtil {
 	
 	public static DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
@@ -354,4 +357,23 @@ public class CallXDateTimeConverterUtil {
 		 DateTime dtLos = dt.withZone(DateTimeZone.forID(timeZone));
 		return dtf.print(dtLos);
 	}
+	
+	public static String[] getDateRange(Request input, Context context){
+		try {
+			Object[] calenArray = CallXDateTimeConverterUtil.getArryOfCalObjects(input.getRef(),input.getRefFrom(),input.getRefTo());
+			String[] dateRange = new String[2];
+			dateRange[0] = String.valueOf(CallXDateTimeConverterUtil.getLongDate(calenArray[0].toString()));
+			dateRange[1] = String.valueOf(CallXDateTimeConverterUtil.getLongDate(calenArray[1].toString()));
+			return dateRange;
+		}catch(Exception e) {
+			context.getLogger().log("Error while converting the Dates : "+e.getMessage());
+		}
+		
+		
+		return null;
+	}
+	
+	
+	
+	
 }
