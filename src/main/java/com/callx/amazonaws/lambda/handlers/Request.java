@@ -8,6 +8,10 @@ public class Request {
 	private String ref;
     private String refFrom;
     private String refTo;
+    private String isExport;
+    private String reportType;
+    
+    
 	public String getRef() {
 		return ref;
 	}
@@ -26,11 +30,25 @@ public class Request {
 	public void setRefTo(String refTo) {
 		this.refTo = refTo;
 	}
-	@Override
-	public String toString() {
-		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + "]";
+	
+	
+	public String getIsExport() {
+		return isExport;
+	}
+	public void setIsExport(String isExport) {
+		this.isExport = isExport;
 	}
 	
-    
+	public String getReportType() {
+		return reportType;
+	}
+	public void setReportType(String reportType) {
+		this.reportType = reportType;
+	}
+	@Override
+	public String toString() {
+		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport=" + isExport
+				+ ", reportType=" + reportType + "]";
+	}
 	
 }
