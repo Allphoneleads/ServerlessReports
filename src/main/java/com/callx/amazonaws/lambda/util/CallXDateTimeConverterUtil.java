@@ -374,6 +374,21 @@ public class CallXDateTimeConverterUtil {
 	}
 	
 	
+	public static String convertSecondsToTimeFormat(int seconds) {
+		int hours = seconds / 3600;
+		int minutes = (seconds - hours * 3600) / 60;
+		int sec = (seconds - hours * 3600) % 60;
+		String time = null;
+		if (seconds >= 3600) {
+			time = (hours < 10 ? ("0" + hours) : hours) + ":" + (minutes < 10 ? ("0" + minutes) : minutes) + ":"
+					+ (sec < 10 ? ("0" + sec) : sec);
+		} else if (seconds < 3600) {
+			time = (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (sec < 10 ? ("0" + sec) : sec);
+		}
+		return time;
+	}
+	
+	
 	
 	
 }

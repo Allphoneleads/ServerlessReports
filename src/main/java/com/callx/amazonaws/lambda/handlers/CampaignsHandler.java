@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+import com.callx.amazonaws.lambda.util.AppUtils;
 import com.callx.amazonaws.lambda.util.AthenaQuerysList;
 import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.amazonaws.lambda.util.JDBCConnection;
@@ -29,6 +30,7 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 		ResultSet rs = null;
 		
 		List<GeneralReportDTO> results = new ArrayList<>();
+		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			long time = System.currentTimeMillis();
 			context.getLogger().log("Before getting the JDBC connection : "+time+"\n");
@@ -58,18 +60,25 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				// print out the list retrieved from database
 				if(results != null){
 					context.getLogger().log("Size of the CampaignReports : "+results.size());
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
+					context.getLogger().log("After Conversions Size of the CampaignReports : "+finalResults.size());
+				
 				}
+				
+				
 			}
 			
 		}catch(Exception e) {
 			context.getLogger().log("Some error in CampaignReportsHandler : " + e.getMessage());
+			context.getLogger().log("Some error in CampaignReportsHandler : " + e);
+			System.out.println(e);
 		}finally {
 			DbUtils.closeQuietly(rs);
 		    DbUtils.closeQuietly(statement);
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return finalResults;
 
 	}
 

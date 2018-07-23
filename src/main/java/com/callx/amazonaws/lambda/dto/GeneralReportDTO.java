@@ -62,6 +62,9 @@ public class GeneralReportDTO {
 	@Column(name="avg_rpk")
 	private BigDecimal avgRpk;
 	
+	@Column(name="connected_duration")
+	private String connectedDuration;
+	
 	@Column(name="avg_connected_duration")
 	private String avgConnectDuration;
 	
@@ -74,8 +77,14 @@ public class GeneralReportDTO {
 	@Column(name="publisher_name")
 	private String publisherName;
 	
+	@Column(name="offer_id")
+	private int offerId;
+	
 	@Column(name="offer_name")
 	private String offerName;
+	
+	@Column(name="advertiser_id")
+	private String advertiserId;
 	
 	@Column(name="advertiser_name")
 	private String advertiserName;
@@ -97,6 +106,9 @@ public class GeneralReportDTO {
 	
 	@Column(name="filter_name")
 	private String ivrFilter; 
+	
+	@Column(name="filter_id")
+	private int filterId;
 	
 	@Column(name="key_calls")
 	private Integer keyCalls;
@@ -274,6 +286,14 @@ public class GeneralReportDTO {
 		this.avgRpk = avgRpk;
 	}
 
+	public String getConnectedDuration() {
+		return connectedDuration;
+	}
+
+	public void setConnectedDuration(String connectedDuration) {
+		this.connectedDuration = connectedDuration;
+	}
+
 	public String getAvgConnectDuration() {
 		return avgConnectDuration;
 	}
@@ -306,12 +326,28 @@ public class GeneralReportDTO {
 		this.publisherName = publisherName;
 	}
 
+	public int getOfferId() {
+		return offerId;
+	}
+
+	public void setOfferId(int offerId) {
+		this.offerId = offerId;
+	}
+
 	public String getOfferName() {
 		return offerName;
 	}
 
 	public void setOfferName(String offerName) {
 		this.offerName = offerName;
+	}
+
+	public String getAdvertiserId() {
+		return advertiserId;
+	}
+
+	public void setAdvertiserId(String advertiserId) {
+		this.advertiserId = advertiserId;
 	}
 
 	public String getAdvertiserName() {
@@ -368,6 +404,14 @@ public class GeneralReportDTO {
 
 	public void setIvrFilter(String ivrFilter) {
 		this.ivrFilter = ivrFilter;
+	}
+
+	public int getFilterId() {
+		return filterId;
+	}
+
+	public void setFilterId(int filterId) {
+		this.filterId = filterId;
 	}
 
 	public Integer getKeyCalls() {
@@ -481,16 +525,18 @@ public class GeneralReportDTO {
 				+ ", uniqueCalls=" + uniqueCalls + ", paidCalls=" + paidCalls + ", offersNotAvailableCount="
 				+ offersNotAvailableCount + ", revenue=" + revenue + ", cost=" + cost + ", profit=" + profit + ", conv="
 				+ conv + ", uniqueConv=" + uniqueConv + ", avgRpc=" + avgRpc + ", avgCpc=" + avgCpc + ", avgRpk="
-				+ avgRpk + ", avgConnectDuration=" + avgConnectDuration + ", avgConnectDurationPaidCalls="
-				+ avgConnectDurationPaidCalls + ", campaignName=" + campaignName + ", publisherName=" + publisherName
-				+ ", offerName=" + offerName + ", advertiserName=" + advertiserName + ", promoNumber=" + promoNumber
-				+ ", promoId=" + promoId + ", promoNumberDescription=" + promoNumberDescription + ", keypress="
-				+ keypress + ", action=" + action + ", ivrFilter=" + ivrFilter + ", keyCalls=" + keyCalls
-				+ ", keypressInPercentage=" + keypressInPercentage + ", paidCallsInPercentage=" + paidCallsInPercentage
-				+ ", paidKeypressRate=" + paidKeypressRate + ", avgCallDuration=" + avgCallDuration
-				+ ", inboundDuration=" + inboundDuration + ", outboundDuration=" + outboundDuration + ", totalDuration="
-				+ totalDuration + ", inboundCost=" + inboundCost + ", outboundCost=" + outboundCost + ", totalCost="
-				+ totalCost + ", state=" + state + ", daypart=" + daypart + "]";
+				+ avgRpk + ", connectedDuration=" + connectedDuration + ", avgConnectDuration=" + avgConnectDuration
+				+ ", avgConnectDurationPaidCalls=" + avgConnectDurationPaidCalls + ", campaignName=" + campaignName
+				+ ", publisherName=" + publisherName + ", offerId=" + offerId + ", offerName=" + offerName
+				+ ", advertiserId=" + advertiserId + ", advertiserName=" + advertiserName + ", promoNumber="
+				+ promoNumber + ", promoId=" + promoId + ", promoNumberDescription=" + promoNumberDescription
+				+ ", keypress=" + keypress + ", action=" + action + ", ivrFilter=" + ivrFilter + ", filterId="
+				+ filterId + ", keyCalls=" + keyCalls + ", keypressInPercentage=" + keypressInPercentage
+				+ ", paidCallsInPercentage=" + paidCallsInPercentage + ", paidKeypressRate=" + paidKeypressRate
+				+ ", avgCallDuration=" + avgCallDuration + ", inboundDuration=" + inboundDuration
+				+ ", outboundDuration=" + outboundDuration + ", totalDuration=" + totalDuration + ", inboundCost="
+				+ inboundCost + ", outboundCost=" + outboundCost + ", totalCost=" + totalCost + ", state=" + state
+				+ ", daypart=" + daypart + "]";
 	}
 
 }

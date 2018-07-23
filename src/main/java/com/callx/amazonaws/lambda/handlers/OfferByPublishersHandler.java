@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+import com.callx.amazonaws.lambda.util.AppUtils;
 import com.callx.amazonaws.lambda.util.AthenaQuerysList;
 import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.amazonaws.lambda.util.JDBCConnection;
@@ -28,6 +29,7 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 		Statement statement = null;
 		ResultSet rs = null;
 		List<GeneralReportDTO> results = new ArrayList<>();
+		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
@@ -47,6 +49,8 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 				// print out the list retrieved from database
 				if(results != null){
 					context.getLogger().log("Size of the OfferByPublishers : "+results.size());
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
+					context.getLogger().log("After Conversions Size of the OfferByPublishers : "+finalResults.size());
 				}
 			}
 			
@@ -58,7 +62,7 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return finalResults;
 
 	}
 

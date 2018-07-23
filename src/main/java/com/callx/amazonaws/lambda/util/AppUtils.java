@@ -1,5 +1,12 @@
 package com.callx.amazonaws.lambda.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+
 public class AppUtils {
 	
 	
@@ -47,4 +54,42 @@ public class AppUtils {
 	public static String IVRFEE_REPORT_TYPE_CAMPAIGNS = "campaign";
 	public static String IVRFEE_REPORT_TYPE_PROMONUMBERS = "promonumber";
 	
+	
+	public static String getStringObject(Object object){
+		if(object != null){
+			return object.toString();
+		}else{
+			return "0";
+		}
+	}
+
+
+	public static List<GeneralReportDTO> getFinalResulsAfterConversions(List<GeneralReportDTO> finalResults,
+			List<GeneralReportDTO> results, Context context) {
+		
+		try{
+			context.getLogger().log("from getFinalResulsAfterConversions ");
+			for(GeneralReportDTO dto : results) {
+				dto.setUniqueCalls(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())).subtract(new BigDecimal(AppUtils.getStringObject(dto.getRepeatCalls()))));
+				dto.setAvgConnectDuration(AppUtils.getStringObject(dto.getTotalCalls()).equals("0") ? new BigDecimal("0").toString() : new BigDecimal(AppUtils.getStringObject(dto.getConnectedDuration()))
+						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())), 2, RoundingMode.HALF_UP).toString());
+				dto.setAvgRpc(AppUtils.getStringObject(dto.getTotalCalls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getRevenue()))
+						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())), 2,RoundingMode.HALF_UP));
+				dto.setAvgCpc(AppUtils.getStringObject(dto.getTotalCalls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getTotalCost()))
+						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())), 2,RoundingMode.HALF_UP));
+				dto.setConv(AppUtils.getStringObject(dto.getTotalCalls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getPaidCalls()))
+						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())), 2,RoundingMode.HALF_UP));
+				dto.setUniqueConv(dto.getUniqueCalls().compareTo(BigDecimal.ZERO) == 0 ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getPaidCalls()))
+						.divide(dto.getUniqueCalls(), 2,RoundingMode.HALF_UP));
+				
+				finalResults.add(dto);
+			}
+			return finalResults;
+		}catch(Exception e) {
+			context.getLogger().log("Some error in getFinalResulsAfterConversions : " + e.getMessage());
+			context.getLogger().log("Some error in getFinalResulsAfterConversions : " + e);
+			System.out.println(e);
+		}
+		return null;
+	}
 }

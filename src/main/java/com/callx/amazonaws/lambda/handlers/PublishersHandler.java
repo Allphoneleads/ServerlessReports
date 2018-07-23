@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+import com.callx.amazonaws.lambda.util.AppUtils;
 import com.callx.amazonaws.lambda.util.AthenaQuerysList;
 import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.amazonaws.lambda.util.JDBCConnection;
@@ -29,6 +30,7 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 		ResultSet rs = null;
 		
 		List<GeneralReportDTO> results = new ArrayList<>();
+		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
@@ -49,18 +51,23 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 				// print out the list retrieved from database
 				if(results != null){
 					context.getLogger().log("Size of the Publishers : "+results.size());
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
+					context.getLogger().log("After Conversions Size of the Publishers : "+finalResults.size());
 				}
 			}
 			
 		}catch(Exception e) {
 			context.getLogger().log("Some error in PublishersHandler : " + e.getMessage());
+			context.getLogger().log("Some error in PublishersHandler : " + e);
+			System.out.println(e);
+			
 		}finally {
 			DbUtils.closeQuietly(rs);
 		    DbUtils.closeQuietly(statement);
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return finalResults;
 
 	}
 

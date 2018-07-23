@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+import com.callx.amazonaws.lambda.util.AppUtils;
 import com.callx.amazonaws.lambda.util.AthenaQuerysList;
 import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.amazonaws.lambda.util.JDBCConnection;
@@ -28,6 +29,7 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 		Statement statement = null;
 		ResultSet rs = null;
 		List<GeneralReportDTO> results = new ArrayList<>();
+		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			
 			conn  = JDBCConnection.getConnection();
@@ -47,7 +49,10 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// print out the list retrieved from database
 				if(results != null){
-					System.out.println("Size of the OffersReports : "+results.size());
+					context.getLogger().log("Size of the OffersReports : "+results.size());
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
+					context.getLogger().log("After Conversions Size of the OffersReports : "+finalResults.size());
+					
 				}
 			}
 			
@@ -59,7 +64,7 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return finalResults;
 
 	}
 
