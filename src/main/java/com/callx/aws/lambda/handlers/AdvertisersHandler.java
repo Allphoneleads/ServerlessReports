@@ -43,8 +43,20 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER, context)
+				String query = "";
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					
+					System.out.println("==============  from advertisers GEo :"+input.getGeoType());
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_GEO, context)
+				               .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+					System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% : "+query);
+				}else {
+					
+					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER, context)
 				               .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+query);
+				}
 
 				System.out.println("Executing Query : "+query);
 

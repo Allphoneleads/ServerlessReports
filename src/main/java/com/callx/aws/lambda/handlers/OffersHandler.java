@@ -42,8 +42,16 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 				
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS, context)
+				String query = "";
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_GEO, context)
+			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+				}else {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS, context)
 			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+					
+				}
 				
 				System.out.println("Executing Query : "+query);
 				

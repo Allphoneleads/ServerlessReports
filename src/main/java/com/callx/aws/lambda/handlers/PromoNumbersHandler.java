@@ -42,9 +42,14 @@ public class PromoNumbersHandler implements RequestHandler<Request, List<General
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 				
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER, context)
+				String query = "";
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER_GEO, context)
+			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());
+				}else {
+				query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER, context)
 			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-				
+				}
 				System.out.println("Executing Query : "+query);
 				
 				rs = statement.executeQuery(query);

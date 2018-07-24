@@ -27,8 +27,25 @@ public class StaticReports {
 	
 	public static final String KEY_PRESS = "ivrfeespromonumber";
 	
+    public static final String CAMPAIGN_GEO = "campaign_geo";
+	
+	public static final String CAMPAIGN_BY_PUBLISHER_GEO = "campaignbypublisher_geo";
+	
+	public static final String OFFERS_GEO = "offers_geo";
+	
+	public static final String OFFERS_BY_PUBLISHERS_GEO = "offersbypublishers_geo";
+	
+	public static final String PROMO_NUMBER_GEO = "promonumber_geo";
+	
+	public static final String OFFERS_BY_PROMO_NUMBER_GEO = "offersbypromonumber_geo";
+	
+	public static final String ADVERTISER_GEO = "advertiser_geo";
+	
+	public static final String PUBLISHER_GEO = "publisher_geo";
 	
 	
+	// Geo Type :
+	public static final String GEO_TYPE = "state"; 
 	
 	
 }

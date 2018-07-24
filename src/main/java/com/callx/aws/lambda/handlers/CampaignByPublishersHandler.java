@@ -42,9 +42,20 @@ public class CampaignByPublishersHandler implements RequestHandler<Request, List
 
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_BY_PUBLISHER, context)
+				String query = "";
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					
+					if (input.getCampPubId() != null && !input.getCampPubId().isEmpty()) {
+						String[] parts = input.getCampPubId().split("-");
+						 query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_BY_PUBLISHER_GEO, context)
+					               .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
+					}
+				}else {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_BY_PUBLISHER, context)
 				               .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-
+	
+				}
+				
 				System.out.println("Executing Query : "+query);
 
 				rs = statement.executeQuery(query);

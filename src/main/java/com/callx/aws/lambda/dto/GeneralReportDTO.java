@@ -144,7 +144,7 @@ public class GeneralReportDTO {
 	@Column(name="total_cost")
 	private BigDecimal totalCost;
 	
-	@Column(name="state")
+	@Column(name="from_state")
 	private String state;
 	
 	@Column(name="daypart")

@@ -47,8 +47,15 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 				context.getLogger().log("After conversion of params : "+(System.currentTimeMillis() -  time)+"\n");
 				
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN, context)
+				String query = "";
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_GEO, context)
+						       .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
+				
+				}else {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN, context)
 						       .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+				}
 				
 				System.out.println("Executing Query : "+query);
 				time = System.currentTimeMillis();

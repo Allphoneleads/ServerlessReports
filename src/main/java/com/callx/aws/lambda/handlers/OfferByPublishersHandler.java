@@ -41,8 +41,18 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 				
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PUBLISHERS, context)
+				String query = "";
+				
+				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+					if (input.getOfferByPubId() != null && !input.getOfferByPubId().isEmpty()) {
+						String[] parts = input.getOfferByPubId().split("-");
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PUBLISHERS_GEO, context)
+				                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
+					}
+				}else {
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PUBLISHERS, context)
 			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+				}
 				
 				System.out.println("Executing Query : "+query);
 				
