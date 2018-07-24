@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.handlers;
+package com.callx.aws.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,12 +10,14 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
-import com.callx.amazonaws.lambda.util.AppUtils;
-import com.callx.amazonaws.lambda.util.AthenaQuerysList;
-import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
-import com.callx.amazonaws.lambda.util.JDBCConnection;
-import com.callx.amazonaws.lambda.util.ResultSetMapper;
+import com.callx.aws.athena.querys.DynamicQuerysList;
+import com.callx.aws.athena.querys.GeneralQuerysList;
+import com.callx.aws.athena.querys.StaticReports;
+import com.callx.aws.lambda.dto.GeneralReportDTO;
+import com.callx.aws.lambda.util.AppUtils;
+import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
+import com.callx.aws.lambda.util.JDBCConnection;
+import com.callx.aws.lambda.util.ResultSetMapper;
 
 public class PromoNumbersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
 
@@ -40,8 +42,8 @@ public class PromoNumbersHandler implements RequestHandler<Request, List<General
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 				
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-				String query = AthenaQuerysList.PROMO_NUMBER.replace("?1", dateRange[0]);
-				query = query.replace("?2", dateRange[1]);
+				String query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER, context)
+			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				
 				System.out.println("Executing Query : "+query);
 				

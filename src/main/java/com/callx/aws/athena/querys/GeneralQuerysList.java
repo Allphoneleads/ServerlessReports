@@ -1,6 +1,6 @@
-package com.callx.amazonaws.lambda.util;
+package com.callx.aws.athena.querys;
 
-public class AthenaQuerysList {
+public class GeneralQuerysList {
 
 
 	public static final String CAMPAIGN = "SELECT count(*) as calls, \n" + 

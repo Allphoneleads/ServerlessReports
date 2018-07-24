@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.util;
+package com.callx.aws.lambda.util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,7 +14,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.callx.amazonaws.lambda.handlers.Request;
+import com.callx.aws.lambda.handlers.Request;
 
 public class CallXDateTimeConverterUtil {
 	

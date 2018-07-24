@@ -1,11 +1,11 @@
-package com.callx.amazonaws.lambda.util;
+package com.callx.aws.lambda.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
+import com.callx.aws.lambda.dto.GeneralReportDTO;
 
 public class AppUtils {
 	

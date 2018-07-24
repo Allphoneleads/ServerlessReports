@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.dto;
+package com.callx.aws.lambda.dto;
 
 import java.math.BigDecimal;
 

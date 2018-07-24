@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.util;
+package com.callx.aws.lambda.util;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;

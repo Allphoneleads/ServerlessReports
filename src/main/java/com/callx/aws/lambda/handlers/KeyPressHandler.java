@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.handlers;
+package com.callx.aws.lambda.handlers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,11 +14,12 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.callx.amazonaws.lambda.dto.GeneralReportDTO;
-import com.callx.amazonaws.lambda.util.AthenaQuerysList;
-import com.callx.amazonaws.lambda.util.CallXDateTimeConverterUtil;
-import com.callx.amazonaws.lambda.util.JDBCConnection;
-import com.callx.amazonaws.lambda.util.ResultSetMapper;
+import com.callx.aws.athena.querys.DynamicQuerysList;
+import com.callx.aws.athena.querys.GeneralQuerysList;
+import com.callx.aws.lambda.dto.GeneralReportDTO;
+import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
+import com.callx.aws.lambda.util.JDBCConnection;
+import com.callx.aws.lambda.util.ResultSetMapper;
 
 public class KeyPressHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
 
@@ -44,8 +45,7 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 				
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 				
-				String query = AthenaQuerysList.KEY_PRESS.replace("?1", dateRange[0]);
-				query = query.replace("?2", dateRange[1]);
+				String query = DynamicQuerysList.KEY_PRESS.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				
 				System.out.println("Executing Query@@@ : "+query);
 				

@@ -1,4 +1,4 @@
-package com.callx.amazonaws.lambda.handlers;
+package com.callx.aws.lambda.handlers;
 
 /**
  * @author Jayaram
