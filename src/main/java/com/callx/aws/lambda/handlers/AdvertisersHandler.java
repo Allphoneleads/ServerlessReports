@@ -11,7 +11,6 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.aws.athena.querys.DynamicQuerysList;
-import com.callx.aws.athena.querys.GeneralQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.AppUtils;
@@ -44,17 +43,22 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
 				String query = "";
-				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-					
-					System.out.println("==============  from advertisers GEo :"+input.getGeoType());
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_GEO, context)
-				               .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
-					System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% : "+query);
+				if(input.getGeoType() != null) {
+
+					if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						System.out.println("==============  from advertisers GEo :"+input.getGeoType());
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						System.out.println("==============  from advertisers Day Part :"+input.getGeoType());
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+					}
 				}else {
-					
+
 					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER, context)
-				               .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+query);
 				}
 

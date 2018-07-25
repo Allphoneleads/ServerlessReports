@@ -36,22 +36,28 @@ public class PromoNumbersHandler implements RequestHandler<Request, List<General
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
-				
+
 				statement = conn.createStatement();
 				// Get the result set from the Athena
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
-				
+
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 				String query = "";
-				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER_GEO, context)
-			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());
+				if(input.getGeoType() != null) {
+					if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());
+					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());	
+					}
+
 				}else {
-				query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER, context)
-			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PROMO_NUMBER, context)
+							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				}
 				System.out.println("Executing Query : "+query);
-				
+
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// print out the list retrieved from database

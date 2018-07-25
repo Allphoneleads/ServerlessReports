@@ -36,25 +36,29 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 			
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
-				
+
 				statement = conn.createStatement();
 				// Get the result set from the Athena
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
-				
+
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 				String query = "";
-				if(input.getGeoType() != null && input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-					
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_GEO, context)
-			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+				if(input.getGeoType() != null) {
+					if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+					}
 				}else {
 					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS, context)
-			                   .replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-					
+							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+
 				}
-				
+
 				System.out.println("Executing Query : "+query);
-				
+
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// print out the list retrieved from database
@@ -62,7 +66,7 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 					context.getLogger().log("Size of the OffersReports : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the OffersReports : "+finalResults.size());
-					
+
 				}
 			}
 			

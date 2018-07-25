@@ -98,7 +98,7 @@ public class DynamicQuerysList {
 				
 			}
 			
-			//Geo Reports 
+			/*Geo Reports*/ 
 			else if(reportType.equalsIgnoreCase(StaticReports.CAMPAIGN_GEO)) {
 				
 				appendQuery = " campaign_id, campaign_name, from_state "+DATABASE_AND_DATE_RANGES+" AND campaign_id=?3 group by campaign_id, campaign_name, from_state ";
@@ -138,6 +138,46 @@ public class DynamicQuerysList {
 				
 			}
 			
+			/* Day Part Reports */
+			else if(reportType.equalsIgnoreCase(StaticReports.CAMPAIGN_DAYPART)) {
+				
+				appendQuery = " campaign_id, campaign_name, hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+" AND campaign_id=?3 group by campaign_id, campaign_name, daypart ";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.CAMPAIGN_BY_PUBLISHER_DAYPART)) {
+				
+				appendQuery = " campaign_id, campaign_name, publisher_id, publisher_name, hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+
+						      " and campaign_id =?3 and publisher_id=?4 group by campaign_id,campaign_name, publisher_id, publisher_name, daypart";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS_DAYPART)) {
+				
+				appendQuery = " offerid, advertiser_id,offer_name,advertiser_name, hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+
+					      " and offer_id=?3 group by offerid,advertiser_id,offer_name,advertiser_name, daypart";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS_BY_PUBLISHERS_DAYPART)) {
+				
+				appendQuery = " offerid, advertiser_id, offer_name, advertiser_name, publisher_id, publisher_name,hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+
+					      " and offer_id=?3 and publisher_id=?4 group by offerid, publisher_id, advertiser_id,advertiser_name,publisher_name,offer_name,daypart";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.PROMO_NUMBER_DAYPART)) {
+				
+				appendQuery = " promo_id, campaign_id,publisher_id, to_number, campaign_name, publisher_name, description,hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+
+					      "  AND promo_id=?3 group by promo_id, campaign_id,publisher_id, to_number, campaign_name, publisher_name, description,daypart";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART)) {
+				
+				appendQuery = " offerid, advertiser_id, offer_name, advertiser_name, promo_id, to_number, description,hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+
+					      " and offer_id=?3 and promo_id=?4 group by offerid, promo_id,advertiser_id,offer_name,advertiser_name,to_number,description, daypart";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.ADVERTISER_DAYPART)) {
+				
+				appendQuery = " advertiser_id, advertiser_name, hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+" AND advertiser_id=?3 group by advertiser_id, advertiser_name, daypart ";
+				
+			}else if(reportType.equalsIgnoreCase(StaticReports.PUBLISHER_DAYPART)) {
+				
+				appendQuery = " publisher_id, publisher_name,hour(end_time) as daypart "+DATABASE_AND_DATE_RANGES+" and publisher_id=?3 group by publisher_id,publisher_name,daypart";
+				
+			}
+			
 			return GENERAL_REPORTS_BASIC_COLUMNS + appendQuery;
 		
 		}catch(Exception e) {
@@ -145,11 +185,6 @@ public class DynamicQuerysList {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
 	
 	
 }
