@@ -23,7 +23,7 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
 		
-		context.getLogger().log("Input from Campaign Reports Handler From Jenkins CI/CD to Lambda @@@ : " + input+"\n");
+		context.getLogger().log("Input from Campaign Reports Handler From Jenkins CI/CD to Lambda functions : " + input+"\n");
 
 		
 		Connection conn = null;
