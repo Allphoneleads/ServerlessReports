@@ -24,7 +24,7 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
 		
-		context.getLogger().log("Input From Offers Report Handler : " + input);
+		context.getLogger().log("Input From Offers Report Handler tesing with Jenkins : " + input);
 
 		
 		Connection conn = null;
