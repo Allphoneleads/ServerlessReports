@@ -147,7 +147,7 @@ public class GeneralReportDTO {
 	@Column(name="from_state")
 	private String state;
 	
-	@Column(name="daypart")
+	@Column(name="end_time")
 	private String daypart;
 
 	public int getId() {
