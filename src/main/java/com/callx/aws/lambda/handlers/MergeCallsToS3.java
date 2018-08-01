@@ -29,13 +29,14 @@ public class MergeCallsToS3 implements RequestHandler<ScheduledEvent, String> {
 	public String handleRequest(ScheduledEvent text, Context arg1) {
 		/* Declare variables for source and destination buckets */
 		/* String sourceBucket = "test-callx"; */
-		System.out.println("#################### : "+text);
+		System.out.println("Scheduled Event Data : "+text);
 		String sourceBucket = "callx-calls-athena";
 		String destinationBucket = "callx-calls-athena-merged";
 
 		/* Prefix to identify the current date */
 		String prefix = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now().minusDays(1)).toString();
 
+		System.out.println(" Prefix : "+prefix);
 		/* Build S3 client object */
 		AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build();
 
@@ -82,24 +83,36 @@ public class MergeCallsToS3 implements RequestHandler<ScheduledEvent, String> {
 			out.close();
 
 			String dateSuffix = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm").format(LocalDateTime.now()).toString();
+			
+			System.out.println(" dateSuffix : "+dateSuffix);
+			
 			String file_path = file.toString();
 			String key_name = Paths.get(file_path).getFileName().toString() + "-" + dateSuffix;
+			System.out.println(" key_name : "+key_name);
 			/* Copy merged file to a destination folder */
 			System.out.format("Uploading %s to S3 bucket %s...\n", file, destinationBucket);
 			final AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-
+			
 			s3.putObject(destinationBucket, key_name, new File(file.toString()));
+			//merged_file
+			System.out.println("Before uploading the copy of the same file.");
+			System.out.println(" destinationBucket : "+destinationBucket+"/merged_file");
+			s3.putObject(destinationBucket+"/merged_file", "final_merged_file", new File(file.toString()));
+			System.out.println("After copy the same file in new folder for EMR.");
 
 		} catch (AmazonServiceException e) {
 			System.err.println(e.getErrorMessage());
+			System.out.println(e.getMessage());
 			System.exit(1);
 		} catch (FileNotFoundException e) {
-			/* e.printStackTrace(); */
+			 e.printStackTrace(); 
 			System.out.println(e.getMessage());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 		return "Merge and Copy complete...";
