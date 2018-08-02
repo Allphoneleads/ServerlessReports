@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -27,27 +27,23 @@ public class MergeCallsToS3 implements RequestHandler<ScheduledEvent, String> {
 
 	@Override
 	public String handleRequest(ScheduledEvent text, Context arg1) {
-		/* Declare variables for source and destination buckets */
-		/* String sourceBucket = "test-callx"; */
+
 		System.out.println("Scheduled Event Data : "+text);
 		String sourceBucket = "callx-calls-athena";
 		String destinationBucket = "callx-calls-athena-merged";
 
-		/* Prefix to identify the current date */
-		String prefix = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now().minusDays(1)).toString();
-
-		System.out.println(" Prefix : "+prefix);
 		/* Build S3 client object */
 		AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build();
+		ObjectListing listing = null;
+		List<S3ObjectSummary> summaries = new ArrayList<S3ObjectSummary>();
+		String prefix = "";
 
-		ObjectListing listing = s3Client.listObjects(sourceBucket, prefix);
-		List<S3ObjectSummary> summaries = listing.getObjectSummaries();
-
-		/* Store all S3 files and folders in List summaries */
-		while (listing.isTruncated()) {
-			listing = s3Client.listNextBatchOfObjects(listing);
+		for(int i=0; i < 4 ; i++ ) {
+			prefix = DateTimeFormatter.ofPattern("yyyy/MM/dd/HH").format(LocalDateTime.now().minusHours(4 - i)).toString();
+			System.out.println(" Bucket Prefix : "+prefix);
+			listing = s3Client.listObjects(sourceBucket, prefix);
 			summaries.addAll(listing.getObjectSummaries());
-
+			System.out.println(" Listing Value : "+listing.getBucketName()+"/"+listing.getPrefix());
 		}
 
 		try {
@@ -64,6 +60,7 @@ public class MergeCallsToS3 implements RequestHandler<ScheduledEvent, String> {
 			OutputStream out = new FileOutputStream(file);
 			/* Ignore folder names, only pick files */
 			for (S3ObjectSummary summary : summaries) {
+				System.out.println("=============   Summary Iteration : "+summary.getKey()+" ===== "+summary.getBucketName());
 				if (summary.getKey().endsWith("/"))
 					continue;
 				S3Object s3Object = s3Client.getObject(new GetObjectRequest(sourceBucket, summary.getKey()));
@@ -117,4 +114,14 @@ public class MergeCallsToS3 implements RequestHandler<ScheduledEvent, String> {
 
 		return "Merge and Copy complete...";
 	}
+	
+	/*public static void main(String a[]) {
+		
+		System.out.println("#######################");
+		String prefix = DateTimeFormatter.ofPattern("yyyy/MM/dd/HH").format(LocalDateTime.now().minusHours(4)).toString();
+		
+		System.out.println("@@@@@@@@@@ : "+prefix);
+		
+		
+	}*/
 }
