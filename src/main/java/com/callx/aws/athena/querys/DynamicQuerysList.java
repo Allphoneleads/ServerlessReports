@@ -56,7 +56,7 @@ public class DynamicQuerysList {
 			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2  " +
 			"           group by campaign_id,campaign_name,filter_name, processed_ivr_keys,filter_id, ivr_action";
 	
-	public static String getExtraColumnsBasedOnReport(String reportType, Context context ) {
+	public static String getGeneralReportQuery(String reportType, Context context ) {
 		try {
 			context.getLogger().log(" From getExtraColumnsBasedOnReport : " + reportType);
 			String appendQuery = "";
@@ -185,6 +185,5 @@ public class DynamicQuerysList {
 		}
 		return null;
 	}
-	
-	
+
 }

@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
@@ -43,31 +44,33 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
 				String query = "";
-				if(input.getGeoType() != null) {
+				if(input.getReportType() != null) {
 
-					if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						System.out.println("==============  from advertisers GEo :"+input.getGeoType());
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_GEO, context)
+					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						System.out.println("==============  from advertisers GEo :"+input.getReportType());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_GEO, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
-					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						System.out.println("==============  from advertisers Day Part :"+input.getGeoType());
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER_DAYPART, context)
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						System.out.println("==============  from advertisers Day Part :"+input.getReportType());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_DAYPART, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
+						
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.ADVERTISER_GRANULAR, input.getFilterType(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
 					}
 				}else {
 
-					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.ADVERTISER, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+query);
 				}
 
 				System.out.println("Executing Query : "+query);
 
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
-				// print out the list retrieved from database
-				if(results != null){
+				// Get the Avg values. For Granular reports we don't need these values.
+				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the Advertisers : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the Advertisers : "+finalResults.size());

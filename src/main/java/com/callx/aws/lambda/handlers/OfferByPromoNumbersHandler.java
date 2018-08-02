@@ -10,8 +10,8 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
-import com.callx.aws.athena.querys.GeneralQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.AppUtils;
@@ -44,19 +44,22 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
 				String query = "";
-				if(input.getGeoType() != null) {
+				if(input.getReportType() != null) {
 					if (input.getOfferByPromoId() != null && !input.getOfferByPromoId().isEmpty()) {
 						String[] parts = input.getOfferByPromoId().split("-");
-						if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-							query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PROMO_NUMBER_GEO, context)
+						if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_GEO, context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
-						}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)){
-							query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART, context)
+						}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)){
+							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART, context)
+									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
+						}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)){
+							query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_GRANULAR, input.getFilterType(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
 						}
 					}
 				}else {
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.OFFERS_BY_PROMO_NUMBER, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);	
 				}
 
@@ -66,8 +69,8 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
-				// print out the list retrieved from database
-				if(results != null){
+				// Get the Avg values. For Granular reports we don't need these values.
+				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the OfferByPromoNumbers : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the OfferByPromoNumbers : "+finalResults.size());

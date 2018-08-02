@@ -150,6 +150,66 @@ public class GeneralReportDTO {
 	@Column(name="end_time")
 	private String daypart;
 
+	@Column(name="call_uuid")
+	private String callUuid;
+	
+	@Column(name="from_number")
+	private String fromNumber;
+	
+	@Column(name="call_type")
+	private String callType;
+	
+	@Column(name="answer_type")
+	private String answerType;
+	
+	@Column(name="agent_id")
+	private int agentId;
+	
+	@Column(name="from_line_type")
+	private String fromLineType;
+	
+	@Column(name="from_city")
+	private String fromCity;
+	
+	@Column(name="from_country")
+	private String fromCountry;
+	
+	@Column(name="from_zip")
+	private String fromZip;
+	
+	@Column(name="b_leg_duration")
+	private int bLegDuration;
+	
+	@Column(name="status")
+	private String status;
+	
+	@Column(name="duration")
+	private int duration;
+	
+	@Column(name="is_repeat")
+	private boolean repeat;
+	
+	@Column(name="file_url")
+	private String fileUrl;
+	
+	@Column(name="algo")
+	private String algo;
+	
+	@Column(name="keyword")
+	private String keyword;
+	
+	@Column(name="keywordmatchtype")
+	private String keywordMatchType;
+	
+	@Column(name="ad_group_name")
+	private String adGroupName;
+	
+	@Column(name="selected_ivr_keys")
+	private String selectedIvrKeys;
+
+	@Column(name="created_at")
+	private String createdAt;
+
 	public int getId() {
 		return id;
 	}
@@ -518,6 +578,166 @@ public class GeneralReportDTO {
 		this.daypart = daypart;
 	}
 
+	public String getCallUuid() {
+		return callUuid;
+	}
+
+	public void setCallUuid(String callUuid) {
+		this.callUuid = callUuid;
+	}
+
+	public String getFromNumber() {
+		return fromNumber;
+	}
+
+	public void setFromNumber(String fromNumber) {
+		this.fromNumber = fromNumber;
+	}
+
+	public String getCallType() {
+		return callType;
+	}
+
+	public void setCallType(String callType) {
+		this.callType = callType;
+	}
+
+	public String getAnswerType() {
+		return answerType;
+	}
+
+	public void setAnswerType(String answerType) {
+		this.answerType = answerType;
+	}
+
+	public int getAgentId() {
+		return agentId;
+	}
+
+	public void setAgentId(int agentId) {
+		this.agentId = agentId;
+	}
+
+	public String getFromLineType() {
+		return fromLineType;
+	}
+
+	public void setFromLineType(String fromLineType) {
+		this.fromLineType = fromLineType;
+	}
+
+	public String getFromCity() {
+		return fromCity;
+	}
+
+	public void setFromCity(String fromCity) {
+		this.fromCity = fromCity;
+	}
+
+	public String getFromCountry() {
+		return fromCountry;
+	}
+
+	public void setFromCountry(String fromCountry) {
+		this.fromCountry = fromCountry;
+	}
+
+	public String getFromZip() {
+		return fromZip;
+	}
+
+	public void setFromZip(String fromZip) {
+		this.fromZip = fromZip;
+	}
+
+	public int getbLegDuration() {
+		return bLegDuration;
+	}
+
+	public void setbLegDuration(int bLegDuration) {
+		this.bLegDuration = bLegDuration;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public boolean isRepeat() {
+		return repeat;
+	}
+
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
+	}
+
+	public String getFileUrl() {
+		return fileUrl;
+	}
+
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
+
+	public String getAlgo() {
+		return algo;
+	}
+
+	public void setAlgo(String algo) {
+		this.algo = algo;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getKeywordMatchType() {
+		return keywordMatchType;
+	}
+
+	public void setKeywordMatchType(String keywordMatchType) {
+		this.keywordMatchType = keywordMatchType;
+	}
+
+	public String getAdGroupName() {
+		return adGroupName;
+	}
+
+	public void setAdGroupName(String adGroupName) {
+		this.adGroupName = adGroupName;
+	}
+
+	public String getSelectedIvrKeys() {
+		return selectedIvrKeys;
+	}
+
+	public void setSelectedIvrKeys(String selectedIvrKeys) {
+		this.selectedIvrKeys = selectedIvrKeys;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	@Override
 	public String toString() {
 		return "GeneralReportDTO [id=" + id + ", campaignId=" + campaignId + ", publisherId=" + publisherId
@@ -536,7 +756,17 @@ public class GeneralReportDTO {
 				+ ", avgCallDuration=" + avgCallDuration + ", inboundDuration=" + inboundDuration
 				+ ", outboundDuration=" + outboundDuration + ", totalDuration=" + totalDuration + ", inboundCost="
 				+ inboundCost + ", outboundCost=" + outboundCost + ", totalCost=" + totalCost + ", state=" + state
-				+ ", daypart=" + daypart + "]";
+				+ ", daypart=" + daypart + ", callUuid=" + callUuid + ", fromNumber=" + fromNumber + ", callType="
+				+ callType + ", answerType=" + answerType + ", agentId=" + agentId + ", fromLineType=" + fromLineType
+				+ ", fromCity=" + fromCity + ", fromCountry=" + fromCountry + ", fromZip=" + fromZip + ", bLegDuration="
+				+ bLegDuration + ", status=" + status + ", duration=" + duration + ", repeat=" + repeat + ", fileUrl="
+				+ fileUrl + ", algo=" + algo + ", keyword=" + keyword + ", keywordMatchType=" + keywordMatchType
+				+ ", adGroupName=" + adGroupName + ", selectedIvrKeys=" + selectedIvrKeys + ", createdAt=" + createdAt
+				+ "]";
 	}
-
+	
+	
+	
+	
+	
 }

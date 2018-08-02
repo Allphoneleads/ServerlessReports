@@ -10,6 +10,7 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
@@ -48,16 +49,23 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				context.getLogger().log("After conversion of params : "+(System.currentTimeMillis() -  time)+"\n");
 
 				String query = "";
-				if(input.getGeoType() != null) {
-					if( input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)){
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_GEO, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());	
-					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN_DAYPART, context)
+				if(input.getReportType() != null) {
+					if( input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)){
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
+						
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
+						
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
+						
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.CAMPAIGN_GRANULAR, input.getFilterType(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
 					}
 				}else {
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.CAMPAIGN, context)
+					
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				}
 
@@ -69,15 +77,13 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				time = System.currentTimeMillis();
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				context.getLogger().log("After Mapper : "+(System.currentTimeMillis() -  time)+"\n");
-				// print out the list retrieved from database
-				if(results != null){
+				// Get the Avg values. For Granular reports we don't need these values.
+				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the CampaignReports : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the CampaignReports : "+finalResults.size());
 
 				}
-
-
 			}
 			
 		}catch(Exception e) {

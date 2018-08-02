@@ -42,12 +42,13 @@ public class ResultSetMapper<T> {
 								i = i + 1;
 								
 								if (field.isAnnotationPresent(Column.class)) {
-									Column column = field
-											.getAnnotation(Column.class);
-									if (column.name().equalsIgnoreCase(columnName) && columnValue != null) {
+									Column column = field.getAnnotation(Column.class);
+									if (column.name().equalsIgnoreCase(columnName)) {
 										
-										
-										if(columnValue.getClass().isAssignableFrom(Long.class)) {
+										if(columnValue == null) {
+											BeanUtils.setProperty(bean, field.getName(), "");
+											
+										}else if(columnValue.getClass().isAssignableFrom(Long.class)) {
 											BeanUtils.setProperty(bean, field.getName(), (Long)columnValue);
 											
 										}else if(columnValue.getClass().isAssignableFrom(BigDecimal.class)) {
@@ -80,7 +81,8 @@ public class ResultSetMapper<T> {
 				return null;
 			}
 			}catch (Exception e) {
-			System.out.println("Exception: "+e.getMessage());
+			System.out.println("Exception: "+e);
+			e.printStackTrace();
 		}
 		return outputList;
 	}

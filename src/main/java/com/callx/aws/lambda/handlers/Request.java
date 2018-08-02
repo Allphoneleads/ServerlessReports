@@ -10,8 +10,7 @@ public class Request {
     private String refTo;
     private String isExport;
     private String reportType;
-    private String geoType;
-    private String dayPart;
+    private String filterType;
     private String campaignId;
     private String publisherId;
     private String offerId;
@@ -20,7 +19,6 @@ public class Request {
     private String campPubId;
     private String offerByPromoId;
     private String offerByPubId;
-    
 	public String getRef() {
 		return ref;
 	}
@@ -51,17 +49,12 @@ public class Request {
 	public void setReportType(String reportType) {
 		this.reportType = reportType;
 	}
-	public String getGeoType() {
-		return geoType;
+	
+	public String getFilterType() {
+		return filterType;
 	}
-	public void setGeoType(String geoType) {
-		this.geoType = geoType;
-	}
-	public String getDayPart() {
-		return dayPart;
-	}
-	public void setDayPart(String dayPart) {
-		this.dayPart = dayPart;
+	public void setFilterType(String filterType) {
+		this.filterType = filterType;
 	}
 	public String getCampaignId() {
 		return campaignId;
@@ -93,7 +86,6 @@ public class Request {
 	public void setAdvertiserId(String advertiserId) {
 		this.advertiserId = advertiserId;
 	}
-	
 	public String getCampPubId() {
 		return campPubId;
 	}
@@ -112,5 +104,14 @@ public class Request {
 	public void setOfferByPubId(String offerByPubId) {
 		this.offerByPubId = offerByPubId;
 	}
+	@Override
+	public String toString() {
+		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport=" + isExport
+				+ ", reportType=" + reportType + ", filterType=" + filterType + ", campaignId=" + campaignId
+				+ ", publisherId=" + publisherId + ", offerId=" + offerId + ", promoId=" + promoId + ", advertiserId="
+				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId + ", offerByPubId="
+				+ offerByPubId + "]";
+	}
+	
     
 }

@@ -10,8 +10,8 @@ import org.apache.commons.dbutils.DbUtils;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
-import com.callx.aws.athena.querys.GeneralQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.AppUtils;
@@ -44,16 +44,19 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
 
 				String query = "";
-				if(input.getGeoType() != null) {
-					if(input.getGeoType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PUBLISHER_GEO, context)
+				if(input.getReportType() != null) {
+					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER_GEO, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
-					}else if(input.getGeoType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PUBLISHER_DAYPART, context)
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.PUBLISHER_GRANULAR, input.getFilterType(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
 					}
 				}else {
-					query = DynamicQuerysList.getExtraColumnsBasedOnReport(StaticReports.PUBLISHER, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 
 				}
@@ -62,8 +65,8 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
-				// print out the list retrieved from database
-				if(results != null){
+				// Get the Avg values. For Granular reports we don't need these values.
+				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the Publishers : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the Publishers : "+finalResults.size());

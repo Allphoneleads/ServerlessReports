@@ -62,9 +62,38 @@ public class StaticReports {
 
 	public static final String PUBLISHER_DAYPART = "publisher_daypart";
 	
+	
+	
+	/* Granular Reports */
+	public static final String CAMPAIGN_GRANULAR = "campaign_granular";
+	
+	public static final String CAMPAIGN_BY_PUBLISHER_GRANULAR = "campaignbypublisher_granular";
+
+	public static final String OFFERS_GRANULAR = "offers_granular";
+
+	public static final String OFFERS_BY_PUBLISHERS_GRANULAR = "offersbypublishers_granular";
+
+	public static final String PROMO_NUMBER_GRANULAR = "promonumber_granular";
+
+	public static final String OFFERS_BY_PROMO_NUMBER_GRANULAR = "offersbypromonumber_granular";
+
+	public static final String ADVERTISER_GRANULAR = "advertiser_granular";
+
+	public static final String PUBLISHER_GRANULAR = "publisher_granular";
+	
 	// Geo Type :
 	public static final String GEO_TYPE = "state";
 	public static final String DAYPART = "daypart";
+	public static final String GRANULAR = "granular";
+	
+	//Granular Sub reports
+	public static final String TOTAL = "total";
+	public static final String REPEAT = "repeat";
+	public static final String UNIQUE = "unique";
+	public static final String PAID = "paid";
+	public static final String OFFERS_NOT_AVAILABLE = "offersnotavailable";
+	
+	
 
 
 }
