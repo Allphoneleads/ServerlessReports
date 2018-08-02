@@ -55,6 +55,9 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
 							query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.OFFERS_BY_PUBLISHERS_GRANULAR, input.getFilterType(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
+						}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
+							query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.OFFERS_BY_PUBLISHERS_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]).replace("?5", input.getState());
 						}
 					}
 				}else {
@@ -67,7 +70,7 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
+				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the OfferByPublishers : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the OfferByPublishers : "+finalResults.size());

@@ -53,6 +53,9 @@ public class PromoNumbersHandler implements RequestHandler<Request, List<General
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
 						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.PROMO_NUMBER_GRANULAR, input.getFilterType(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());	
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
+						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.PROMO_NUMBER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId()).replace("?4", input.getState());	
 					}
 
 				}else {
@@ -64,7 +67,7 @@ public class PromoNumbersHandler implements RequestHandler<Request, List<General
 				rs = statement.executeQuery(query);
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
+				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the PromoNumbers : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the PromoNumbers : "+finalResults.size());

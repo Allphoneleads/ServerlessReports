@@ -81,10 +81,31 @@ public class StaticReports {
 
 	public static final String PUBLISHER_GRANULAR = "publisher_granular";
 	
-	// Geo Type :
+	/* State Granular Reports */
+	public static final String CAMPAIGN_STATE_GRANULAR = "campaign_state_granular";
+	
+	public static final String CAMPAIGN_BY_PUBLISHER_STATE_GRANULAR = "campaignbypublisher_state_granular";
+
+	public static final String OFFERS_STATE_GRANULAR = "offers_state_granular";
+
+	public static final String OFFERS_BY_PUBLISHERS_STATE_GRANULAR = "offersbypublishers_state_granular";
+
+	public static final String PROMO_NUMBER_STATE_GRANULAR = "promonumber_state_granular";
+
+	public static final String OFFERS_BY_PROMO_NUMBER_STATE_GRANULAR = "offersbypromonumber_state_granular";
+
+	public static final String ADVERTISER_STATE_GRANULAR = "advertiser_state_granular";
+
+	public static final String PUBLISHER_STATE_GRANULAR = "publisher_state_granular";
+	
+	// Report Type :
 	public static final String GEO_TYPE = "state";
 	public static final String DAYPART = "daypart";
 	public static final String GRANULAR = "granular";
+	public static final String STATE_GRANULAR = "state-granular";
+	public static final String DAYPART_GRANULAR = "daypart-granular";
+	
+	
 	
 	//Granular Sub reports
 	public static final String TOTAL = "total";

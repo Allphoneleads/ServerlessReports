@@ -19,7 +19,9 @@ public class Request {
     private String campPubId;
     private String offerByPromoId;
     private String offerByPubId;
-	public String getRef() {
+    private String state;
+
+    public String getRef() {
 		return ref;
 	}
 	public void setRef(String ref) {
@@ -104,14 +106,18 @@ public class Request {
 	public void setOfferByPubId(String offerByPubId) {
 		this.offerByPubId = offerByPubId;
 	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	@Override
 	public String toString() {
 		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport=" + isExport
 				+ ", reportType=" + reportType + ", filterType=" + filterType + ", campaignId=" + campaignId
 				+ ", publisherId=" + publisherId + ", offerId=" + offerId + ", promoId=" + promoId + ", advertiserId="
 				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId + ", offerByPubId="
-				+ offerByPubId + "]";
+				+ offerByPubId + ", state=" + state + "]";
 	}
-	
-    
 }

@@ -62,7 +62,12 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 						
 						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.CAMPAIGN_GRANULAR, input.getFilterType(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
+						
+						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.CAMPAIGN_STATE_GRANULAR, input.getFilterType(), input.getState(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId()).replace("?4", input.getState());
 					}
+					
 				}else {
 					
 					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN, context)
@@ -78,7 +83,7 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				context.getLogger().log("After Mapper : "+(System.currentTimeMillis() -  time)+"\n");
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR))){
+				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
 					context.getLogger().log("Size of the CampaignReports : "+results.size());
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
 					context.getLogger().log("After Conversions Size of the CampaignReports : "+finalResults.size());
