@@ -64,12 +64,11 @@ public class AppUtils {
 	}
 
 
-	public static List<GeneralReportDTO> getFinalResulsAfterConversions(List<GeneralReportDTO> finalResults,
-			List<GeneralReportDTO> results, Context context) {
+	public static List<GeneralReportDTO> getFinalResulsAfterConversions(List<GeneralReportDTO> finalResults, Context context) {
 		
 		try{
 			context.getLogger().log("from getFinalResulsAfterConversions ");
-			for(GeneralReportDTO dto : results) {
+			for(GeneralReportDTO dto : finalResults) {
 				dto.setUniqueCalls(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())).subtract(new BigDecimal(AppUtils.getStringObject(dto.getRepeatCalls()))));
 				dto.setAvgConnectDuration(AppUtils.getStringObject(dto.getTotalCalls()).equals("0") ? new BigDecimal("0").toString() : new BigDecimal(AppUtils.getStringObject(dto.getConnectedDuration()))
 						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotalCalls())), 2, RoundingMode.HALF_UP).toString());
@@ -82,7 +81,6 @@ public class AppUtils {
 				dto.setUniqueConv(dto.getUniqueCalls().compareTo(BigDecimal.ZERO) == 0 ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getPaidCalls()))
 						.divide(dto.getUniqueCalls(), 2,RoundingMode.HALF_UP));
 				
-				finalResults.add(dto);
 			}
 			return finalResults;
 		}catch(Exception e) {

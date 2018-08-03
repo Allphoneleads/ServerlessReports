@@ -20,6 +20,8 @@ public class Request {
     private String offerByPromoId;
     private String offerByPubId;
     private String state;
+    private int hour;
+    
 
     public String getRef() {
 		return ref;
@@ -112,12 +114,19 @@ public class Request {
 	public void setState(String state) {
 		this.state = state;
 	}
+	public int getHour() {
+		return hour;
+	}
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
 	@Override
 	public String toString() {
 		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport=" + isExport
 				+ ", reportType=" + reportType + ", filterType=" + filterType + ", campaignId=" + campaignId
 				+ ", publisherId=" + publisherId + ", offerId=" + offerId + ", promoId=" + promoId + ", advertiserId="
 				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId + ", offerByPubId="
-				+ offerByPubId + ", state=" + state + "]";
+				+ offerByPubId + ", state=" + state + ", hour=" + hour + "]";
 	}
+	
 }

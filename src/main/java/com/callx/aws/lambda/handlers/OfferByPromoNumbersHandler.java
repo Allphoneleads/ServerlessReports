@@ -31,7 +31,6 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 		Statement statement = null;
 		ResultSet rs = null;
 		
-		List<GeneralReportDTO> results = new ArrayList<>();
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
@@ -42,15 +41,18 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-
 				String query = "";
+				boolean calculateConversions = false;
+				
 				if(input.getReportType() != null) {
 					if (input.getOfferByPromoId() != null && !input.getOfferByPromoId().isEmpty()) {
 						String[] parts = input.getOfferByPromoId().split("-");
 						if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+							calculateConversions = true;
 							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_GEO, context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)){
+							calculateConversions = true;
 							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART, context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)){
@@ -59,25 +61,30 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)){
 							query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]).replace("?5", input.getState());
+						}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)){
+							query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]).replace("?5", String.valueOf(input.getHour()));
 						}
 					}
 				}else {
+					calculateConversions = true;
 					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);	
 				}
 
 
 
-				System.out.println("Executing Query : "+query);
+				System.out.println("Executing Query : "+query+"\n");
 
 				rs = statement.executeQuery(query);
-				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
+				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
-					context.getLogger().log("Size of the OfferByPromoNumbers : "+results.size());
-					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
-					context.getLogger().log("After Conversions Size of the OfferByPromoNumbers : "+finalResults.size());
+				if(finalResults != null && calculateConversions){
+					context.getLogger().log("Size of the OfferByPromoNumbers : "+finalResults.size()+"\n");
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
+					context.getLogger().log("After Conversions Size of the OfferByPromoNumbers : "+finalResults.size()+"\n");
 				}
+				context.getLogger().log("Before Returning Size of the OfferByPromoNumbers : "+finalResults.size());
 			}
 			
 		}catch(Exception e) {
@@ -88,7 +95,7 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return finalResults;
 
 	}
 

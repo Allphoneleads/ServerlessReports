@@ -98,6 +98,25 @@ public class StaticReports {
 
 	public static final String PUBLISHER_STATE_GRANULAR = "publisher_state_granular";
 	
+	/* Daypart Granular Reports */
+	public static final String CAMPAIGN_DAYPART_GRANULAR = "campaign_daypart_granular";
+	
+	public static final String CAMPAIGN_BY_PUBLISHER_DAYPART_GRANULAR = "campaignbypublisher_daypart_granular";
+
+	public static final String OFFERS_DAYPART_GRANULAR = "offers_daypart_granular";
+
+	public static final String OFFERS_BY_PUBLISHERS_DAYPART_GRANULAR = "offersbypublishers_daypart_granular";
+
+	public static final String PROMO_NUMBER_DAYPART_GRANULAR = "promonumber_daypart_granular";
+
+	public static final String OFFERS_BY_PROMO_NUMBER_DAYPART_GRANULAR = "offersbypromonumber_daypart_granular";
+
+	public static final String ADVERTISER_DAYPART_GRANULAR = "advertiser_daypart_granular";
+
+	public static final String PUBLISHER_DAYPART_GRANULAR = "publisher_daypart_granular";
+	
+	
+	
 	// Report Type :
 	public static final String GEO_TYPE = "state";
 	public static final String DAYPART = "daypart";

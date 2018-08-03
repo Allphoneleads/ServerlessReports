@@ -31,7 +31,6 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 		Statement statement = null;
 		ResultSet rs = null;
 
-		List<GeneralReportDTO> results = new ArrayList<>();
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
@@ -42,43 +41,51 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
-
 				String query = "";
+				boolean calculateConversions = false;
+				
 				if(input.getReportType() != null) {
 
 					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						calculateConversions = true;
 						System.out.println("==============  from advertisers GEo :"+input.getReportType());
 						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_GEO, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						calculateConversions = true;
 						System.out.println("==============  from advertisers Day Part :"+input.getReportType());
 						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_DAYPART, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
 						
 						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.ADVERTISER_GRANULAR, input.getFilterType(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
 						
 						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.ADVERTISER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId()).replace("?4", input.getState());
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", input.getState());
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)) {
+						
+						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.ADVERTISER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", String.valueOf(input.getHour()));
 					}
 				}else {
-
+					calculateConversions = true;
 					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				}
 
-				System.out.println("Executing Query : "+query);
+				System.out.println("Executing Query : "+query+"\n");
 
 				rs = statement.executeQuery(query);
-				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
+				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
-					context.getLogger().log("Size of the Advertisers : "+results.size());
-					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
-					context.getLogger().log("After Conversions Size of the Advertisers : "+finalResults.size());
+				if(finalResults != null && calculateConversions){
+					context.getLogger().log("Size of the Advertisers : "+finalResults.size()+"\n");
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
+					context.getLogger().log("After Conversions Size of the Advertisers : "+finalResults.size()+"\n");
 				}
+				context.getLogger().log("Before Returning Size of the Advertisers : "+finalResults.size());
 			}
 
 		}catch(Exception e) {

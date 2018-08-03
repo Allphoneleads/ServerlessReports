@@ -24,14 +24,13 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
 		
-		context.getLogger().log("Input from Campaign Reports Handler From Jenkins CI/CD Test : " + input+"\n");
+		context.getLogger().log("Input from Campaign Reports Handler From Jenkins CI/CD Test @@@@@@@@@@ : " + input+"\n");
 
 		
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
 		
-		List<GeneralReportDTO> results = new ArrayList<>();
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			long time = System.currentTimeMillis();
@@ -49,52 +48,58 @@ public class CampaignsHandler implements RequestHandler<Request, List<GeneralRep
 				context.getLogger().log("After conversion of params : "+(System.currentTimeMillis() -  time)+"\n");
 
 				String query = "";
+				boolean calculateConversions = false;
 				if(input.getReportType() != null) {
 					if( input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)){
+						calculateConversions = true;
 						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_GEO, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
 						
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						calculateConversions = true;
 						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_DAYPART, context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
 						
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
-						
 						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.CAMPAIGN_GRANULAR, input.getFilterType(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
-						
 						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.CAMPAIGN_STATE_GRANULAR, input.getFilterType(), input.getState(), context)
 								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId()).replace("?4", input.getState());
+					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)) {
+						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.CAMPAIGN_DAYPART_GRANULAR, input.getFilterType(), input.getHour(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getCampaignId()).replace("?4", String.valueOf(input.getHour()));
 					}
 					
 				}else {
-					
+					calculateConversions = true;
 					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
 				}
 
-				System.out.println("Executing Query : "+query);
+				System.out.println("Executing Query : "+query+"\n");
 				time = System.currentTimeMillis();
 
 				rs = statement.executeQuery(query);
 				context.getLogger().log("After Query Execution : "+(System.currentTimeMillis() -  time)+"\n");
 				time = System.currentTimeMillis();
-				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
+				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				context.getLogger().log("After Mapper : "+(System.currentTimeMillis() -  time)+"\n");
 				// Get the Avg values. For Granular reports we don't need these values.
-				if(results != null && !(input.getReportType().contains(StaticReports.GRANULAR))){
-					context.getLogger().log("Size of the CampaignReports : "+results.size());
-					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, results, context);
-					context.getLogger().log("After Conversions Size of the CampaignReports : "+finalResults.size());
+				if(finalResults != null && calculateConversions){
+					context.getLogger().log("Size of the CampaignReports : "+finalResults.size()+"\n");
+					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
+					context.getLogger().log("After Conversions Size of the CampaignReports : "+finalResults.size()+"\n");
 
 				}
+				
+				context.getLogger().log("Before Returning Size of the CampaignReports : "+finalResults.size());
 			}
 			
 		}catch(Exception e) {
 			context.getLogger().log("Some error in CampaignReportsHandler : " + e.getMessage());
 			context.getLogger().log("Some error in CampaignReportsHandler : " + e);
-			System.out.println(e);
+			e.printStackTrace();
 		}finally {
 			DbUtils.closeQuietly(rs);
 		    DbUtils.closeQuietly(statement);
