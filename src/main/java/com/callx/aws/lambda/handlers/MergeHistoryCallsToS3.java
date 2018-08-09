@@ -92,6 +92,12 @@ public class MergeHistoryCallsToS3  implements RequestHandler<ScheduledEvent, St
 
 			s3.putObject(destinationBucket, key_name, new File(file.toString()));
 
+			System.out.println("Before uploading the copy of the same file.");
+			System.out.println(" destinationBucket : "+destinationBucket+"/merged_file");
+			s3.putObject(destinationBucket+"/merged_file", "final_merged_file", new File(file.toString()));
+			System.out.println("After copy the same file in new folder for EMR.");
+
+			
 		} catch (AmazonServiceException e) {
 			System.err.println(e.getErrorMessage());
 			System.exit(1);
