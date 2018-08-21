@@ -60,12 +60,12 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 				Map<Integer, Integer> campaignMapData = new HashMap<Integer, Integer>();
 
 				for (GeneralReportDTO report : results) {
-					if (campaignMapData.containsKey(report.getCampaignId())) {
-						campaignMapData.put(report.getCampaignId(),
-								campaignMapData.get(report.getCampaignId()) + report.getKeyCalls());
+					if (campaignMapData.containsKey(report.getCampaign_id())) {
+						campaignMapData.put(report.getCampaign_id(),
+								campaignMapData.get(report.getCampaign_id()) + report.getKey_calls());
 					} else {
-						report.setTotalCalls(new BigDecimal(report.getKeyCalls()));
-						campaignMapData.put(report.getCampaignId(), report.getKeyCalls());
+						report.setTotal_calls(new BigDecimal(report.getKey_calls()));
+						campaignMapData.put(report.getCampaign_id(), report.getKey_calls());
 					}
 				}
 
@@ -75,32 +75,32 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 
 					GeneralReportDTO keypressReportDto = new GeneralReportDTO();
 
-					keypressReportDto.setCampaignId(report.getCampaignId());
-					keypressReportDto.setCampaignName(report.getCampaignName());
-					keypressReportDto.setIvrFilter(report.getIvrFilter());
+					keypressReportDto.setCampaign_id(report.getCampaign_id());
+					keypressReportDto.setCampaign_name(report.getCampaign_name());
+					keypressReportDto.setFilter_name(report.getFilter_name());
 					keypressReportDto.setAction(report.getAction());
-					keypressReportDto.setTotalCalls(new BigDecimal(campaignMapData.get(report.getCampaignId())));
-					keypressReportDto.setKeypress(report.getKeypress());
+					keypressReportDto.setTotal_calls(new BigDecimal(campaignMapData.get(report.getCampaign_id())));
+					keypressReportDto.setProcessed_ivr_keys(report.getProcessed_ivr_keys());
 
-					keypressReportDto.setKeyCalls(report.getKeyCalls());
-					keypressReportDto.setPaidCalls(report.getPaidCalls());
-					keypressReportDto.setRevenue(report.getRevenue());
+					keypressReportDto.setKey_calls(report.getKey_calls());
+					keypressReportDto.setPaid_calls(report.getPaid_calls());
+					keypressReportDto.setTotal_revenue(report.getTotal_revenue());
 
-					BigDecimal percentageKeyPressCalls = (new BigDecimal(report.getKeyCalls()))
-							.divide(new BigDecimal(campaignMapData.get(report.getCampaignId())), 2, RoundingMode.FLOOR);
-					BigDecimal percentagePaidCalls = (report.getPaidCalls())
-							.divide(new BigDecimal(campaignMapData.get(report.getCampaignId())), 2, RoundingMode.FLOOR);
-					BigDecimal percentagePaidVsKeyPress = (report.getPaidCalls())
-							.divide(new BigDecimal(report.getKeyCalls()), 2, RoundingMode.FLOOR);
-					BigDecimal avgRpk = report.getRevenue().divide(new BigDecimal(report.getKeyCalls()), 2,
+					BigDecimal percentageKeyPressCalls = (new BigDecimal(report.getKey_calls()))
+							.divide(new BigDecimal(campaignMapData.get(report.getCampaign_id())), 2, RoundingMode.FLOOR);
+					BigDecimal percentagePaidCalls = (report.getPaid_calls())
+							.divide(new BigDecimal(campaignMapData.get(report.getCampaign_id())), 2, RoundingMode.FLOOR);
+					BigDecimal percentagePaidVsKeyPress = (report.getPaid_calls())
+							.divide(new BigDecimal(report.getKey_calls()), 2, RoundingMode.FLOOR);
+					BigDecimal avgRpk = report.getTotal_revenue().divide(new BigDecimal(report.getKey_calls()), 2,
 							RoundingMode.FLOOR);
 
-					keypressReportDto.setKeypressInPercentage(percentageKeyPressCalls);
-					keypressReportDto.setPaidCallsInPercentage(percentagePaidCalls);
-					keypressReportDto.setPaidKeypressRate(percentagePaidVsKeyPress);
-					keypressReportDto.setAvgRpk(avgRpk);
-					int avgCallDuration = report.getTotalDuration() / report.getKeyCalls();
-					keypressReportDto.setAvgCallDuration(CallXDateTimeConverterUtil.convertSecondsToTimeFormat(avgCallDuration));
+					keypressReportDto.setKeypress_in_percentage(percentageKeyPressCalls);
+					keypressReportDto.setPaidCalls_in_percentage(percentagePaidCalls);
+					keypressReportDto.setPaid_keypress_rate(percentagePaidVsKeyPress);
+					keypressReportDto.setAvg_rpk(avgRpk);
+					int avgCallDuration = report.getTotal_duration() / report.getKey_calls();
+					keypressReportDto.setAvg_call_duration(CallXDateTimeConverterUtil.convertSecondsToTimeFormat(avgCallDuration));
 
 					keyPressReportList.add(keypressReportDto);
 

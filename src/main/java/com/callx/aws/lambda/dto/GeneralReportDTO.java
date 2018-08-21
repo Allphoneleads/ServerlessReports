@@ -15,170 +15,170 @@ public class GeneralReportDTO {
 	private int id;
 	
 	@Column(name="campaign_id")
-	private int campaignId;
+	private int campaign_id;
 	
 	@Column(name="publisher_id")
-	private int publisherId;
+	private int publisher_id;
 	
 	@Column(name="calls")
-	private BigDecimal totalCalls;
+	private BigDecimal total_calls;
 	
 	@Column(name="repeat_calls")
-	private BigDecimal repeatCalls;
+	private BigDecimal repeat_calls;
 	
 	@Column(name="repeat_calls_per")
-	private BigDecimal repeatCallsPer;
+	private BigDecimal repeat_calls_per;
 	
 	@Column(name="unique_calls")
-	private BigDecimal uniqueCalls;
+	private BigDecimal unique_calls;
 	
 	@Column(name="paid_calls")
-	private BigDecimal paidCalls;
+	private BigDecimal paid_calls;
 	
 	@Column(name="offer_not_found")
-	private BigDecimal offersNotAvailableCount;
+	private BigDecimal offer_not_found;
 	
 	@Column(name="total_revenue")
-	private BigDecimal revenue;
+	private BigDecimal total_revenue;
 	
 	@Column(name="publisher_revenue")
-	private BigDecimal cost;
+	private BigDecimal publisher_revenue;
 	
 	@Column(name="profit")
-	private BigDecimal profit;
+	private BigDecimal total_profit;
 	
 	@Column(name="conv_rate")
 	private BigDecimal conv;
 	
 	@Column(name="unique_conv_rate")
-	private BigDecimal uniqueConv;
+	private BigDecimal unique_conv;
 	
 	@Column(name="avg_rpc")
-	private BigDecimal avgRpc;
+	private BigDecimal avg_rpc;
 	
 	@Column(name="avg_cpc")
-	private BigDecimal avgCpc;
+	private BigDecimal avg_cpc;
 	
 	@Column(name="avg_rpk")
-	private BigDecimal avgRpk;
+	private BigDecimal avg_rpk;
 	
 	@Column(name="connected_duration")
-	private String connectedDuration;
+	private String connected_duration;
 	
 	@Column(name="avg_connected_duration")
-	private String avgConnectDuration;
+	private String avg_connect_duration;
 	
 	@Column(name="avg_connected_duration_paid_calls")
-	private String avgConnectDurationPaidCalls;
+	private String avg_connect_duration_paid_calls;
 
 	@Column(name="campaign_name")
-	private String campaignName;
+	private String campaign_name;
 	
 	@Column(name="publisher_name")
-	private String publisherName;
+	private String publisher_name;
 	
 	@Column(name="offer_id")
-	private int offerId;
+	private int offer_id;
 	
 	@Column(name="offer_name")
-	private String offerName;
+	private String offer_name;
 	
 	@Column(name="advertiser_id")
-	private String advertiserId;
+	private String advertiser_id;
 	
 	@Column(name="advertiser_name")
-	private String advertiserName;
+	private String advertiser_name;
 	
 	@Column(name="to_number")
-	private String promoNumber;
+	private String to_number;
 	
 	@Column(name="promo_id")
-	private String promoId;
+	private String promo_id;
 	
 	@Column(name="description")
-	private String promoNumberDescription;
+	private String description;
 	
 	@Column(name="processed_ivr_keys")
-	private String keypress; 
+	private String processed_ivr_keys; 
 	
 	@Column(name="ivr_action")
 	private String action; 
 	
 	@Column(name="filter_name")
-	private String ivrFilter; 
+	private String filter_name; 
 	
 	@Column(name="filter_id")
-	private int filterId;
+	private int filter_id;
 	
 	@Column(name="key_calls")
-	private Integer keyCalls;
+	private Integer key_calls;
 	
 	@Column(name="keypress_in_percentage")
-	private BigDecimal keypressInPercentage;
+	private BigDecimal keypress_in_percentage;
 	
 	@Column(name="paidCalls_in_percentage")
-	private BigDecimal paidCallsInPercentage;
+	private BigDecimal paidCalls_in_percentage;
 	
 	@Column(name="paid_keypress_rate")
-	private BigDecimal paidKeypressRate;
+	private BigDecimal paid_keypress_rate;
 	
 	@Column(name="avg_call_duration")
-	private String avgCallDuration;
+	private String avg_call_duration;
 	
 	@Column(name="inbound_duration")
-	private int inboundDuration;
+	private int inbound_duration;
 	
 	@Column(name="outbound_duration")
-	private int outboundDuration;
+	private int outbound_duration;
 	
 	@Column(name="total_duration")
-	private int totalDuration;
+	private int total_duration;
 	
 	
 	@Column(name="inbound_cost")
-	private BigDecimal inboundCost;
+	private BigDecimal inbound_cost;
 	
 	@Column(name="outbound_cost")
-	private BigDecimal outboundCost;
+	private BigDecimal outbound_cost;
 	
 	@Column(name="total_cost")
-	private BigDecimal totalCost;
+	private BigDecimal total_cost;
 	
 	@Column(name="from_state")
-	private String state;
+	private String from_state;
 	
 	@Column(name="end_time")
 	private String daypart;
 
 	@Column(name="call_uuid")
-	private String callUuid;
+	private String call_uuid;
 	
 	@Column(name="from_number")
-	private String fromNumber;
+	private String from_number;
 	
 	@Column(name="call_type")
-	private String callType;
+	private String call_type;
 	
 	@Column(name="answer_type")
-	private String answerType;
+	private String answer_type;
 	
 	@Column(name="agent_id")
-	private int agentId;
+	private int agent_id;
 	
 	@Column(name="from_line_type")
-	private String fromLineType;
+	private String from_line_type;
 	
 	@Column(name="from_city")
-	private String fromCity;
+	private String from_city;
 	
 	@Column(name="from_country")
-	private String fromCountry;
+	private String from_country;
 	
 	@Column(name="from_zip")
-	private String fromZip;
+	private String from_zip;
 	
 	@Column(name="b_leg_duration")
-	private int bLegDuration;
+	private int b_leg_duration;
 	
 	@Column(name="status")
 	private String status;
@@ -190,7 +190,7 @@ public class GeneralReportDTO {
 	private boolean repeat;
 	
 	@Column(name="file_url")
-	private String fileUrl;
+	private String file_url;
 	
 	@Column(name="algo")
 	private String algo;
@@ -199,13 +199,13 @@ public class GeneralReportDTO {
 	private String keyword;
 	
 	@Column(name="keywordmatchtype")
-	private String keywordMatchType;
+	private String keyword_match_type;
 	
 	@Column(name="ad_group_name")
-	private String adGroupName;
+	private String ad_group_name;
 	
 	@Column(name="selected_ivr_keys")
-	private String selectedIvrKeys;
+	private String selected_ivr_keys;
 
 	@Column(name="created_at")
 	private String createdAt;
@@ -218,92 +218,92 @@ public class GeneralReportDTO {
 		this.id = id;
 	}
 
-	public int getCampaignId() {
-		return campaignId;
+	public int getCampaign_id() {
+		return campaign_id;
 	}
 
-	public void setCampaignId(int campaignId) {
-		this.campaignId = campaignId;
+	public void setCampaign_id(int campaign_id) {
+		this.campaign_id = campaign_id;
 	}
 
-	public int getPublisherId() {
-		return publisherId;
+	public int getPublisher_id() {
+		return publisher_id;
 	}
 
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
+	public void setPublisher_id(int publisher_id) {
+		this.publisher_id = publisher_id;
 	}
 
-	public BigDecimal getTotalCalls() {
-		return totalCalls;
+	public BigDecimal getTotal_calls() {
+		return total_calls;
 	}
 
-	public void setTotalCalls(BigDecimal totalCalls) {
-		this.totalCalls = totalCalls;
+	public void setTotal_calls(BigDecimal total_calls) {
+		this.total_calls = total_calls;
 	}
 
-	public BigDecimal getRepeatCalls() {
-		return repeatCalls;
+	public BigDecimal getRepeat_calls() {
+		return repeat_calls;
 	}
 
-	public void setRepeatCalls(BigDecimal repeatCalls) {
-		this.repeatCalls = repeatCalls;
+	public void setRepeat_calls(BigDecimal repeat_calls) {
+		this.repeat_calls = repeat_calls;
 	}
 
-	public BigDecimal getRepeatCallsPer() {
-		return repeatCallsPer;
+	public BigDecimal getRepeat_calls_per() {
+		return repeat_calls_per;
 	}
 
-	public void setRepeatCallsPer(BigDecimal repeatCallsPer) {
-		this.repeatCallsPer = repeatCallsPer;
+	public void setRepeat_calls_per(BigDecimal repeat_calls_per) {
+		this.repeat_calls_per = repeat_calls_per;
 	}
 
-	public BigDecimal getUniqueCalls() {
-		return uniqueCalls;
+	public BigDecimal getUnique_calls() {
+		return unique_calls;
 	}
 
-	public void setUniqueCalls(BigDecimal uniqueCalls) {
-		this.uniqueCalls = uniqueCalls;
+	public void setUnique_calls(BigDecimal unique_calls) {
+		this.unique_calls = unique_calls;
 	}
 
-	public BigDecimal getPaidCalls() {
-		return paidCalls;
+	public BigDecimal getPaid_calls() {
+		return paid_calls;
 	}
 
-	public void setPaidCalls(BigDecimal paidCalls) {
-		this.paidCalls = paidCalls;
+	public void setPaid_calls(BigDecimal paid_calls) {
+		this.paid_calls = paid_calls;
 	}
 
-	public BigDecimal getOffersNotAvailableCount() {
-		return offersNotAvailableCount;
+	public BigDecimal getOffer_not_found() {
+		return offer_not_found;
 	}
 
-	public void setOffersNotAvailableCount(BigDecimal offersNotAvailableCount) {
-		this.offersNotAvailableCount = offersNotAvailableCount;
+	public void setOffer_not_found(BigDecimal offer_not_found) {
+		this.offer_not_found = offer_not_found;
 	}
 
-	public BigDecimal getRevenue() {
-		return revenue;
+	public BigDecimal getTotal_revenue() {
+		return total_revenue;
 	}
 
-	public void setRevenue(BigDecimal revenue) {
-		this.revenue = revenue;
+	public void setTotal_revenue(BigDecimal total_revenue) {
+		this.total_revenue = total_revenue;
 	}
 
-	public BigDecimal getCost() {
-		return cost;
+	public BigDecimal getPublisher_revenue() {
+		return publisher_revenue;
 	}
 
-	public void setCost(BigDecimal cost) {
-		this.cost = cost;
+	public void setPublisher_revenue(BigDecimal publisher_revenue) {
+		this.publisher_revenue = publisher_revenue;
 	}
 
-	public BigDecimal getProfit() {
-		return profit;
+	public BigDecimal getTotal_profit() {
+		return total_profit;
 	}
 
-	public void setProfit(BigDecimal profit) {
-		this.profit = profit;
+	public void setTotal_profit(BigDecimal total_profit) {
+		this.total_profit = total_profit;
 	}
 
 	public BigDecimal getConv() {
@@ -314,140 +314,140 @@ public class GeneralReportDTO {
 		this.conv = conv;
 	}
 
-	public BigDecimal getUniqueConv() {
-		return uniqueConv;
+	public BigDecimal getUnique_conv() {
+		return unique_conv;
 	}
 
-	public void setUniqueConv(BigDecimal uniqueConv) {
-		this.uniqueConv = uniqueConv;
+	public void setUnique_conv(BigDecimal unique_conv) {
+		this.unique_conv = unique_conv;
 	}
 
-	public BigDecimal getAvgRpc() {
-		return avgRpc;
+	public BigDecimal getAvg_rpc() {
+		return avg_rpc;
 	}
 
-	public void setAvgRpc(BigDecimal avgRpc) {
-		this.avgRpc = avgRpc;
+	public void setAvg_rpc(BigDecimal avg_rpc) {
+		this.avg_rpc = avg_rpc;
 	}
 
-	public BigDecimal getAvgCpc() {
-		return avgCpc;
+	public BigDecimal getAvg_cpc() {
+		return avg_cpc;
 	}
 
-	public void setAvgCpc(BigDecimal avgCpc) {
-		this.avgCpc = avgCpc;
+	public void setAvg_cpc(BigDecimal avg_cpc) {
+		this.avg_cpc = avg_cpc;
 	}
 
-	public BigDecimal getAvgRpk() {
-		return avgRpk;
+	public BigDecimal getAvg_rpk() {
+		return avg_rpk;
 	}
 
-	public void setAvgRpk(BigDecimal avgRpk) {
-		this.avgRpk = avgRpk;
+	public void setAvg_rpk(BigDecimal avg_rpk) {
+		this.avg_rpk = avg_rpk;
 	}
 
-	public String getConnectedDuration() {
-		return connectedDuration;
+	public String getConnected_duration() {
+		return connected_duration;
 	}
 
-	public void setConnectedDuration(String connectedDuration) {
-		this.connectedDuration = connectedDuration;
+	public void setConnected_duration(String connected_duration) {
+		this.connected_duration = connected_duration;
 	}
 
-	public String getAvgConnectDuration() {
-		return avgConnectDuration;
+	public String getAvg_connect_duration() {
+		return avg_connect_duration;
 	}
 
-	public void setAvgConnectDuration(String avgConnectDuration) {
-		this.avgConnectDuration = avgConnectDuration;
+	public void setAvg_connect_duration(String avg_connect_duration) {
+		this.avg_connect_duration = avg_connect_duration;
 	}
 
-	public String getAvgConnectDurationPaidCalls() {
-		return avgConnectDurationPaidCalls;
+	public String getAvg_connect_duration_paid_calls() {
+		return avg_connect_duration_paid_calls;
 	}
 
-	public void setAvgConnectDurationPaidCalls(String avgConnectDurationPaidCalls) {
-		this.avgConnectDurationPaidCalls = avgConnectDurationPaidCalls;
+	public void setAvg_connect_duration_paid_calls(String avg_connect_duration_paid_calls) {
+		this.avg_connect_duration_paid_calls = avg_connect_duration_paid_calls;
 	}
 
-	public String getCampaignName() {
-		return campaignName;
+	public String getCampaign_name() {
+		return campaign_name;
 	}
 
-	public void setCampaignName(String campaignName) {
-		this.campaignName = campaignName;
+	public void setCampaign_name(String campaign_name) {
+		this.campaign_name = campaign_name;
 	}
 
-	public String getPublisherName() {
-		return publisherName;
+	public String getPublisher_name() {
+		return publisher_name;
 	}
 
-	public void setPublisherName(String publisherName) {
-		this.publisherName = publisherName;
+	public void setPublisher_name(String publisher_name) {
+		this.publisher_name = publisher_name;
 	}
 
-	public int getOfferId() {
-		return offerId;
+	public int getOffer_id() {
+		return offer_id;
 	}
 
-	public void setOfferId(int offerId) {
-		this.offerId = offerId;
+	public void setOffer_id(int offer_id) {
+		this.offer_id = offer_id;
 	}
 
-	public String getOfferName() {
-		return offerName;
+	public String getOffer_name() {
+		return offer_name;
 	}
 
-	public void setOfferName(String offerName) {
-		this.offerName = offerName;
+	public void setOffer_name(String offer_name) {
+		this.offer_name = offer_name;
 	}
 
-	public String getAdvertiserId() {
-		return advertiserId;
+	public String getAdvertiser_id() {
+		return advertiser_id;
 	}
 
-	public void setAdvertiserId(String advertiserId) {
-		this.advertiserId = advertiserId;
+	public void setAdvertiser_id(String advertiser_id) {
+		this.advertiser_id = advertiser_id;
 	}
 
-	public String getAdvertiserName() {
-		return advertiserName;
+	public String getAdvertiser_name() {
+		return advertiser_name;
 	}
 
-	public void setAdvertiserName(String advertiserName) {
-		this.advertiserName = advertiserName;
+	public void setAdvertiser_name(String advertiser_name) {
+		this.advertiser_name = advertiser_name;
 	}
 
-	public String getPromoNumber() {
-		return promoNumber;
+	public String getTo_number() {
+		return to_number;
 	}
 
-	public void setPromoNumber(String promoNumber) {
-		this.promoNumber = promoNumber;
+	public void setTo_number(String to_number) {
+		this.to_number = to_number;
 	}
 
-	public String getPromoId() {
-		return promoId;
+	public String getPromo_id() {
+		return promo_id;
 	}
 
-	public void setPromoId(String promoId) {
-		this.promoId = promoId;
+	public void setPromo_id(String promo_id) {
+		this.promo_id = promo_id;
 	}
 
-	public String getPromoNumberDescription() {
-		return promoNumberDescription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPromoNumberDescription(String promoNumberDescription) {
-		this.promoNumberDescription = promoNumberDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getKeypress() {
-		return keypress;
+	public String getProcessed_ivr_keys() {
+		return processed_ivr_keys;
 	}
 
-	public void setKeypress(String keypress) {
-		this.keypress = keypress;
+	public void setProcessed_ivr_keys(String processed_ivr_keys) {
+		this.processed_ivr_keys = processed_ivr_keys;
 	}
 
 	public String getAction() {
@@ -458,116 +458,116 @@ public class GeneralReportDTO {
 		this.action = action;
 	}
 
-	public String getIvrFilter() {
-		return ivrFilter;
+	public String getFilter_name() {
+		return filter_name;
 	}
 
-	public void setIvrFilter(String ivrFilter) {
-		this.ivrFilter = ivrFilter;
+	public void setFilter_name(String filter_name) {
+		this.filter_name = filter_name;
 	}
 
-	public int getFilterId() {
-		return filterId;
+	public int getFilter_id() {
+		return filter_id;
 	}
 
-	public void setFilterId(int filterId) {
-		this.filterId = filterId;
+	public void setFilter_id(int filter_id) {
+		this.filter_id = filter_id;
 	}
 
-	public Integer getKeyCalls() {
-		return keyCalls;
+	public Integer getKey_calls() {
+		return key_calls;
 	}
 
-	public void setKeyCalls(Integer keyCalls) {
-		this.keyCalls = keyCalls;
+	public void setKey_calls(Integer key_calls) {
+		this.key_calls = key_calls;
 	}
 
-	public BigDecimal getKeypressInPercentage() {
-		return keypressInPercentage;
+	public BigDecimal getKeypress_in_percentage() {
+		return keypress_in_percentage;
 	}
 
-	public void setKeypressInPercentage(BigDecimal keypressInPercentage) {
-		this.keypressInPercentage = keypressInPercentage;
+	public void setKeypress_in_percentage(BigDecimal keypress_in_percentage) {
+		this.keypress_in_percentage = keypress_in_percentage;
 	}
 
-	public BigDecimal getPaidCallsInPercentage() {
-		return paidCallsInPercentage;
+	public BigDecimal getPaidCalls_in_percentage() {
+		return paidCalls_in_percentage;
 	}
 
-	public void setPaidCallsInPercentage(BigDecimal paidCallsInPercentage) {
-		this.paidCallsInPercentage = paidCallsInPercentage;
+	public void setPaidCalls_in_percentage(BigDecimal paidCalls_in_percentage) {
+		this.paidCalls_in_percentage = paidCalls_in_percentage;
 	}
 
-	public BigDecimal getPaidKeypressRate() {
-		return paidKeypressRate;
+	public BigDecimal getPaid_keypress_rate() {
+		return paid_keypress_rate;
 	}
 
-	public void setPaidKeypressRate(BigDecimal paidKeypressRate) {
-		this.paidKeypressRate = paidKeypressRate;
+	public void setPaid_keypress_rate(BigDecimal paid_keypress_rate) {
+		this.paid_keypress_rate = paid_keypress_rate;
 	}
 
-	public String getAvgCallDuration() {
-		return avgCallDuration;
+	public String getAvg_call_duration() {
+		return avg_call_duration;
 	}
 
-	public void setAvgCallDuration(String avgCallDuration) {
-		this.avgCallDuration = avgCallDuration;
+	public void setAvg_call_duration(String avg_call_duration) {
+		this.avg_call_duration = avg_call_duration;
 	}
 
-	public int getInboundDuration() {
-		return inboundDuration;
+	public int getInbound_duration() {
+		return inbound_duration;
 	}
 
-	public void setInboundDuration(int inboundDuration) {
-		this.inboundDuration = inboundDuration;
+	public void setInbound_duration(int inbound_duration) {
+		this.inbound_duration = inbound_duration;
 	}
 
-	public int getOutboundDuration() {
-		return outboundDuration;
+	public int getOutbound_duration() {
+		return outbound_duration;
 	}
 
-	public void setOutboundDuration(int outboundDuration) {
-		this.outboundDuration = outboundDuration;
+	public void setOutbound_duration(int outbound_duration) {
+		this.outbound_duration = outbound_duration;
 	}
 
-	public int getTotalDuration() {
-		return totalDuration;
+	public int getTotal_duration() {
+		return total_duration;
 	}
 
-	public void setTotalDuration(int totalDuration) {
-		this.totalDuration = totalDuration;
+	public void setTotal_duration(int total_duration) {
+		this.total_duration = total_duration;
 	}
 
-	public BigDecimal getInboundCost() {
-		return inboundCost;
+	public BigDecimal getInbound_cost() {
+		return inbound_cost;
 	}
 
-	public void setInboundCost(BigDecimal inboundCost) {
-		this.inboundCost = inboundCost;
+	public void setInbound_cost(BigDecimal inbound_cost) {
+		this.inbound_cost = inbound_cost;
 	}
 
-	public BigDecimal getOutboundCost() {
-		return outboundCost;
+	public BigDecimal getOutbound_cost() {
+		return outbound_cost;
 	}
 
-	public void setOutboundCost(BigDecimal outboundCost) {
-		this.outboundCost = outboundCost;
+	public void setOutbound_cost(BigDecimal outbound_cost) {
+		this.outbound_cost = outbound_cost;
 	}
 
-	public BigDecimal getTotalCost() {
-		return totalCost;
+	public BigDecimal getTotal_cost() {
+		return total_cost;
 	}
 
-	public void setTotalCost(BigDecimal totalCost) {
-		this.totalCost = totalCost;
+	public void setTotal_cost(BigDecimal total_cost) {
+		this.total_cost = total_cost;
 	}
 
-	public String getState() {
-		return state;
+	public String getFrom_state() {
+		return from_state;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setFrom_state(String from_state) {
+		this.from_state = from_state;
 	}
 
 	public String getDaypart() {
@@ -578,84 +578,84 @@ public class GeneralReportDTO {
 		this.daypart = daypart;
 	}
 
-	public String getCallUuid() {
-		return callUuid;
+	public String getCall_uuid() {
+		return call_uuid;
 	}
 
-	public void setCallUuid(String callUuid) {
-		this.callUuid = callUuid;
+	public void setCall_uuid(String call_uuid) {
+		this.call_uuid = call_uuid;
 	}
 
-	public String getFromNumber() {
-		return fromNumber;
+	public String getFrom_number() {
+		return from_number;
 	}
 
-	public void setFromNumber(String fromNumber) {
-		this.fromNumber = fromNumber;
+	public void setFrom_number(String from_number) {
+		this.from_number = from_number;
 	}
 
-	public String getCallType() {
-		return callType;
+	public String getCall_type() {
+		return call_type;
 	}
 
-	public void setCallType(String callType) {
-		this.callType = callType;
+	public void setCall_type(String call_type) {
+		this.call_type = call_type;
 	}
 
-	public String getAnswerType() {
-		return answerType;
+	public String getAnswer_type() {
+		return answer_type;
 	}
 
-	public void setAnswerType(String answerType) {
-		this.answerType = answerType;
+	public void setAnswer_type(String answer_type) {
+		this.answer_type = answer_type;
 	}
 
-	public int getAgentId() {
-		return agentId;
+	public int getAgent_id() {
+		return agent_id;
 	}
 
-	public void setAgentId(int agentId) {
-		this.agentId = agentId;
+	public void setAgent_id(int agent_id) {
+		this.agent_id = agent_id;
 	}
 
-	public String getFromLineType() {
-		return fromLineType;
+	public String getFrom_line_type() {
+		return from_line_type;
 	}
 
-	public void setFromLineType(String fromLineType) {
-		this.fromLineType = fromLineType;
+	public void setFrom_line_type(String from_line_type) {
+		this.from_line_type = from_line_type;
 	}
 
-	public String getFromCity() {
-		return fromCity;
+	public String getFrom_city() {
+		return from_city;
 	}
 
-	public void setFromCity(String fromCity) {
-		this.fromCity = fromCity;
+	public void setFrom_city(String from_city) {
+		this.from_city = from_city;
 	}
 
-	public String getFromCountry() {
-		return fromCountry;
+	public String getFrom_country() {
+		return from_country;
 	}
 
-	public void setFromCountry(String fromCountry) {
-		this.fromCountry = fromCountry;
+	public void setFrom_country(String from_country) {
+		this.from_country = from_country;
 	}
 
-	public String getFromZip() {
-		return fromZip;
+	public String getFrom_zip() {
+		return from_zip;
 	}
 
-	public void setFromZip(String fromZip) {
-		this.fromZip = fromZip;
+	public void setFrom_zip(String from_zip) {
+		this.from_zip = from_zip;
 	}
 
-	public int getbLegDuration() {
-		return bLegDuration;
+	public int getB_leg_duration() {
+		return b_leg_duration;
 	}
 
-	public void setbLegDuration(int bLegDuration) {
-		this.bLegDuration = bLegDuration;
+	public void setB_leg_duration(int b_leg_duration) {
+		this.b_leg_duration = b_leg_duration;
 	}
 
 	public String getStatus() {
@@ -682,12 +682,12 @@ public class GeneralReportDTO {
 		this.repeat = repeat;
 	}
 
-	public String getFileUrl() {
-		return fileUrl;
+	public String getFile_url() {
+		return file_url;
 	}
 
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
+	public void setFile_url(String file_url) {
+		this.file_url = file_url;
 	}
 
 	public String getAlgo() {
@@ -706,28 +706,28 @@ public class GeneralReportDTO {
 		this.keyword = keyword;
 	}
 
-	public String getKeywordMatchType() {
-		return keywordMatchType;
+	public String getKeyword_match_type() {
+		return keyword_match_type;
 	}
 
-	public void setKeywordMatchType(String keywordMatchType) {
-		this.keywordMatchType = keywordMatchType;
+	public void setKeyword_match_type(String keyword_match_type) {
+		this.keyword_match_type = keyword_match_type;
 	}
 
-	public String getAdGroupName() {
-		return adGroupName;
+	public String getAd_group_name() {
+		return ad_group_name;
 	}
 
-	public void setAdGroupName(String adGroupName) {
-		this.adGroupName = adGroupName;
+	public void setAd_group_name(String ad_group_name) {
+		this.ad_group_name = ad_group_name;
 	}
 
-	public String getSelectedIvrKeys() {
-		return selectedIvrKeys;
+	public String getSelected_ivr_keys() {
+		return selected_ivr_keys;
 	}
 
-	public void setSelectedIvrKeys(String selectedIvrKeys) {
-		this.selectedIvrKeys = selectedIvrKeys;
+	public void setSelected_ivr_keys(String selected_ivr_keys) {
+		this.selected_ivr_keys = selected_ivr_keys;
 	}
 
 	public String getCreatedAt() {
@@ -740,33 +740,31 @@ public class GeneralReportDTO {
 
 	@Override
 	public String toString() {
-		return "GeneralReportDTO [id=" + id + ", campaignId=" + campaignId + ", publisherId=" + publisherId
-				+ ", totalCalls=" + totalCalls + ", repeatCalls=" + repeatCalls + ", repeatCallsPer=" + repeatCallsPer
-				+ ", uniqueCalls=" + uniqueCalls + ", paidCalls=" + paidCalls + ", offersNotAvailableCount="
-				+ offersNotAvailableCount + ", revenue=" + revenue + ", cost=" + cost + ", profit=" + profit + ", conv="
-				+ conv + ", uniqueConv=" + uniqueConv + ", avgRpc=" + avgRpc + ", avgCpc=" + avgCpc + ", avgRpk="
-				+ avgRpk + ", connectedDuration=" + connectedDuration + ", avgConnectDuration=" + avgConnectDuration
-				+ ", avgConnectDurationPaidCalls=" + avgConnectDurationPaidCalls + ", campaignName=" + campaignName
-				+ ", publisherName=" + publisherName + ", offerId=" + offerId + ", offerName=" + offerName
-				+ ", advertiserId=" + advertiserId + ", advertiserName=" + advertiserName + ", promoNumber="
-				+ promoNumber + ", promoId=" + promoId + ", promoNumberDescription=" + promoNumberDescription
-				+ ", keypress=" + keypress + ", action=" + action + ", ivrFilter=" + ivrFilter + ", filterId="
-				+ filterId + ", keyCalls=" + keyCalls + ", keypressInPercentage=" + keypressInPercentage
-				+ ", paidCallsInPercentage=" + paidCallsInPercentage + ", paidKeypressRate=" + paidKeypressRate
-				+ ", avgCallDuration=" + avgCallDuration + ", inboundDuration=" + inboundDuration
-				+ ", outboundDuration=" + outboundDuration + ", totalDuration=" + totalDuration + ", inboundCost="
-				+ inboundCost + ", outboundCost=" + outboundCost + ", totalCost=" + totalCost + ", state=" + state
-				+ ", daypart=" + daypart + ", callUuid=" + callUuid + ", fromNumber=" + fromNumber + ", callType="
-				+ callType + ", answerType=" + answerType + ", agentId=" + agentId + ", fromLineType=" + fromLineType
-				+ ", fromCity=" + fromCity + ", fromCountry=" + fromCountry + ", fromZip=" + fromZip + ", bLegDuration="
-				+ bLegDuration + ", status=" + status + ", duration=" + duration + ", repeat=" + repeat + ", fileUrl="
-				+ fileUrl + ", algo=" + algo + ", keyword=" + keyword + ", keywordMatchType=" + keywordMatchType
-				+ ", adGroupName=" + adGroupName + ", selectedIvrKeys=" + selectedIvrKeys + ", createdAt=" + createdAt
-				+ "]";
+		return "GeneralReportDTO [id=" + id + ", campaign_id=" + campaign_id + ", publisher_id=" + publisher_id
+				+ ", total_calls=" + total_calls + ", repeat_calls=" + repeat_calls + ", repeat_calls_per="
+				+ repeat_calls_per + ", unique_calls=" + unique_calls + ", paid_calls=" + paid_calls
+				+ ", offer_not_found=" + offer_not_found + ", total_revenue=" + total_revenue + ", publisher_revenue="
+				+ publisher_revenue + ", total_profit=" + total_profit + ", conv=" + conv + ", unique_conv="
+				+ unique_conv + ", avg_rpc=" + avg_rpc + ", avg_cpc=" + avg_cpc + ", avg_rpk=" + avg_rpk
+				+ ", connected_duration=" + connected_duration + ", avg_connect_duration=" + avg_connect_duration
+				+ ", avg_connect_duration_paid_calls=" + avg_connect_duration_paid_calls + ", campaign_name="
+				+ campaign_name + ", publisher_name=" + publisher_name + ", offer_id=" + offer_id + ", offer_name="
+				+ offer_name + ", advertiser_id=" + advertiser_id + ", advertiser_name=" + advertiser_name
+				+ ", to_number=" + to_number + ", promo_id=" + promo_id + ", description=" + description
+				+ ", processed_ivr_keys=" + processed_ivr_keys + ", action=" + action + ", filter_name=" + filter_name
+				+ ", filter_id=" + filter_id + ", key_calls=" + key_calls + ", keypress_in_percentage="
+				+ keypress_in_percentage + ", paidCalls_in_percentage=" + paidCalls_in_percentage
+				+ ", paid_keypress_rate=" + paid_keypress_rate + ", avg_call_duration=" + avg_call_duration
+				+ ", inbound_duration=" + inbound_duration + ", outbound_duration=" + outbound_duration
+				+ ", total_duration=" + total_duration + ", inbound_cost=" + inbound_cost + ", outbound_cost="
+				+ outbound_cost + ", total_cost=" + total_cost + ", from_state=" + from_state + ", daypart=" + daypart
+				+ ", call_uuid=" + call_uuid + ", from_number=" + from_number + ", call_type=" + call_type
+				+ ", answer_type=" + answer_type + ", agent_id=" + agent_id + ", from_line_type=" + from_line_type
+				+ ", from_city=" + from_city + ", from_country=" + from_country + ", from_zip=" + from_zip
+				+ ", b_leg_duration=" + b_leg_duration + ", status=" + status + ", duration=" + duration + ", repeat="
+				+ repeat + ", file_url=" + file_url + ", algo=" + algo + ", keyword=" + keyword
+				+ ", keyword_match_type=" + keyword_match_type + ", ad_group_name=" + ad_group_name
+				+ ", selected_ivr_keys=" + selected_ivr_keys + ", createdAt=" + createdAt + "]";
 	}
-	
-	
-	
-	
 	
 }
