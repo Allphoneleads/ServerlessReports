@@ -14,7 +14,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.callx.aws.lambda.handlers.Request;
+import com.callx.calls.lambda.handlers.Request;
 
 public class CallXDateTimeConverterUtil {
 	

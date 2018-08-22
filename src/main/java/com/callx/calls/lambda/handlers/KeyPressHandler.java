@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

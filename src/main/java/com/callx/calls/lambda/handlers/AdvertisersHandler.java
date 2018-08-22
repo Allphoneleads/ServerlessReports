@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,18 +19,18 @@ import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class PublishersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class AdvertisersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
 
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
-		
-		context.getLogger().log("Input from Publishers Handler: " + input+"\n");
 
-		
+		context.getLogger().log("Input from Advertisers Handler: " + input+"\n");
+
+
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
-		
+
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
@@ -45,29 +45,34 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 				boolean calculateConversions = false;
 				
 				if(input.getReportType() != null) {
+
 					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
 						calculateConversions = true;
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER_GEO, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
+						System.out.println("==============  from advertisers GEo :"+input.getReportType());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
 						calculateConversions = true;
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER_DAYPART, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
+						System.out.println("==============  from advertisers Day Part :"+input.getReportType());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
-						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.PUBLISHER_GRANULAR, input.getFilterType(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId());
+						
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.ADVERTISER_GRANULAR, input.getFilterType(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
-						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.PUBLISHER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId()).replace("?4", input.getState());
+						
+						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.ADVERTISER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", input.getState());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)) {
-						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.PUBLISHER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPublisherId()).replace("?4", String.valueOf(input.getHour()));
+						
+						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.ADVERTISER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", String.valueOf(input.getHour()));
 					}
 				}else {
 					calculateConversions = true;
-					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PUBLISHER, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-
 				}
 
 				System.out.println("Executing Query : "+query+"\n");
@@ -76,24 +81,21 @@ public class PublishersHandler implements RequestHandler<Request, List<GeneralRe
 				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
 				if(finalResults != null && calculateConversions){
-					context.getLogger().log("Size of the Publishers : "+finalResults.size()+"\n");
+					context.getLogger().log("Size of the Advertisers : "+finalResults.size()+"\n");
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
-					context.getLogger().log("After Conversions Size of the Publishers : "+finalResults.size()+"\n");
+					context.getLogger().log("After Conversions Size of the Advertisers : "+finalResults.size()+"\n");
 				}
-				context.getLogger().log("Before Returning Size of the CampaignReports : "+finalResults.size());
+				context.getLogger().log("Before Returning Size of the Advertisers : "+finalResults.size());
 			}
-			
+
 		}catch(Exception e) {
-			context.getLogger().log("Some error in PublishersHandler : " + e.getMessage());
-			context.getLogger().log("Some error in PublishersHandler : " + e);
-			System.out.println(e);
-			
+			context.getLogger().log("Some error in AdvertisersHandler : " + e.getMessage());
 		}finally {
 			DbUtils.closeQuietly(rs);
-		    DbUtils.closeQuietly(statement);
-		    DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(statement);
+			DbUtils.closeQuietly(conn);
 		}
-		
+
 		return finalResults;
 
 	}

@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,18 +19,17 @@ import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class CampaignByPublishersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
 
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
-		
-		context.getLogger().log("Input from Offer By PromoNumbers Handler: " + input+"\n");
 
-		
+		context.getLogger().log("Input from Campaign By Publishers Handler: " + input+"\n");
+
+
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
-		
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
 			conn  = JDBCConnection.getConnection();
@@ -41,38 +40,38 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 				ResultSetMapper<GeneralReportDTO> resultSetMapper = new ResultSetMapper<GeneralReportDTO>();
 
 				String[] dateRange = CallXDateTimeConverterUtil.getDateRange(input, context);
+
 				String query = "";
 				boolean calculateConversions = false;
-				
 				if(input.getReportType() != null) {
-					if (input.getOfferByPromoId() != null && !input.getOfferByPromoId().isEmpty()) {
-						String[] parts = input.getOfferByPromoId().split("-");
+
+					if (input.getCampPubId() != null && !input.getCampPubId().isEmpty()) {
+						String[] parts = input.getCampPubId().split("-");
 						if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
 							calculateConversions = true;
-							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_GEO, context)
-									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
+							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER_GEO, context)
+									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);	
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)){
 							calculateConversions = true;
-							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART, context)
+							query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER_DAYPART, context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)){
-							query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_GRANULAR, input.getFilterType(), context)
+							query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER_GRANULAR, input.getFilterType(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]);
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)){
-							query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+							query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER_STATE_GRANULAR, input.getFilterType(), input.getState(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]).replace("?5", input.getState());
 						}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)){
-							query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+							query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER_DAYPART_GRANULAR, input.getFilterType(), input.getHour(), context)
 									.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", parts[0]).replace("?4", parts[1]).replace("?5", String.valueOf(input.getHour()));
 						}
 					}
 				}else {
 					calculateConversions = true;
-					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_BY_PROMO_NUMBER, context)
-							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);	
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.CAMPAIGN_BY_PUBLISHER, context)
+							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+
 				}
-
-
 
 				System.out.println("Executing Query : "+query+"\n");
 
@@ -80,21 +79,21 @@ public class OfferByPromoNumbersHandler implements RequestHandler<Request, List<
 				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
 				if(finalResults != null && calculateConversions){
-					context.getLogger().log("Size of the OfferByPromoNumbers : "+finalResults.size()+"\n");
+					context.getLogger().log("Size of the CampaignByPublishers : "+finalResults.size()+"\n");
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
-					context.getLogger().log("After Conversions Size of the OfferByPromoNumbers : "+finalResults.size()+"\n");
+					context.getLogger().log("After Conversions Size of the CampaignByPublishers : "+finalResults.size()+"\n");
 				}
-				context.getLogger().log("Before Returning Size of the OfferByPromoNumbers : "+finalResults.size());
+				context.getLogger().log("Before Returning Size of the CampaignByPublishers : "+finalResults.size());
 			}
-			
+
 		}catch(Exception e) {
-			context.getLogger().log("Some error in OfferByPromoNumbersHandler : " + e.getMessage());
+			context.getLogger().log("Some error in CampaignByPublishers : " + e.getMessage());
 		}finally {
 			DbUtils.closeQuietly(rs);
-		    DbUtils.closeQuietly(statement);
-		    DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(statement);
+			DbUtils.closeQuietly(conn);
 		}
-		
+
 		return finalResults;
 
 	}

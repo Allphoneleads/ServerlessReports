@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,20 +19,20 @@ import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class OffersHandler implements RequestHandler<Request, List<GeneralReportDTO>>{
+public class PromoNumbersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
 
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
 		
-		context.getLogger().log("Input From Offers Report Handler : " + input);
+		context.getLogger().log("Input from PromoNumbers Handler: " + input+"\n");
 
 		
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
+		
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
-			
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
 
@@ -47,44 +47,43 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 				if(input.getReportType() != null) {
 					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
 						calculateConversions = true;
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_GEO, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PROMO_NUMBER_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
 						calculateConversions = true;
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_DAYPART, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PROMO_NUMBER_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
-						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.OFFERS_GRANULAR, input.getFilterType(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.PROMO_NUMBER_GRANULAR, input.getFilterType(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
-						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.OFFERS_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId()).replace("?4", input.getState());
+						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.PROMO_NUMBER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId()).replace("?4", input.getState());	
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)) {
-						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.OFFERS_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId()).replace("?4", String.valueOf(input.getHour()));
+						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.PROMO_NUMBER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getPromoId()).replace("?4", String.valueOf(input.getHour()));	
 					}
+
 				}else {
 					calculateConversions = true;
-					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.PROMO_NUMBER, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
-
 				}
-
 				System.out.println("Executing Query : "+query+"\n");
 
 				rs = statement.executeQuery(query);
 				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
 				if(finalResults != null && calculateConversions){
-					context.getLogger().log("Size of the OffersReports : "+finalResults.size()+"\n");
+					context.getLogger().log("Size of the PromoNumbers : "+finalResults.size()+"\n");
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
-					context.getLogger().log("After Conversions Size of the OffersReports : "+finalResults.size()+"\n");
+					context.getLogger().log("After Conversions Size of the PromoNumbers : "+finalResults.size()+"\n");
 				}
-				context.getLogger().log("Before Returning Size of the OffersReports : "+finalResults.size());
+				context.getLogger().log("Before Returning Size of the PromoNumbers : "+finalResults.size());
 			}
 			
 		}catch(Exception e) {
-			context.getLogger().log("Some error in OffersReportsHandler : " + e.getMessage());
+			context.getLogger().log("Some error in PromoNumbers : " + e.getMessage());
 		}finally {
 			DbUtils.closeQuietly(rs);
 		    DbUtils.closeQuietly(statement);
@@ -94,5 +93,4 @@ public class OffersHandler implements RequestHandler<Request, List<GeneralReport
 		return finalResults;
 
 	}
-
 }

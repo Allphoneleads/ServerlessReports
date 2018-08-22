@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -134,6 +134,14 @@ public class StaticReports {
 	public static final String OFFERS_NOT_AVAILABLE = "offersnotavailable";
 	
 	
-
-
+	// Sales count reports
+	public static String SALE_TYPE_CAMPAIGN ="campaign";
+	public static String SALE_TYPE_CAMPAIGNSBYPUBLISHER ="campaignsbypublisher";
+	public static String SALE_TYPE_OFFER ="offer";
+	public static String SALE_TYPE_OFFERSBYPUBLISHER ="offersbypublisher";
+	public static String SALE_TYPE_PROMONUMBER ="promonumber";
+	public static String SALE_TYPE_OFFERBYPROMONUMBER = "offersbypromonumber";
+	public static String SALE_TYPE_ADVERTISER ="advertiser";
+	public static String SALE_TYPE_PUBLISHER ="publisher";
+	
 }

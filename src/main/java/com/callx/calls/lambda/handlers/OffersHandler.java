@@ -1,4 +1,4 @@
-package com.callx.aws.lambda.handlers;
+package com.callx.calls.lambda.handlers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,20 +19,20 @@ import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class AdvertisersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class OffersHandler implements RequestHandler<Request, List<GeneralReportDTO>>{
 
 	@Override
 	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
+		
+		context.getLogger().log("Input From Offers Report Handler : " + input);
 
-		context.getLogger().log("Input from Advertisers Handler: " + input+"\n");
-
-
+		
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
-
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
 		try {
+			
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
 
@@ -45,34 +45,29 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 				boolean calculateConversions = false;
 				
 				if(input.getReportType() != null) {
-
 					if(input.getReportType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
 						calculateConversions = true;
-						System.out.println("==============  from advertisers GEo :"+input.getReportType());
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_GEO, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_GEO, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART)) {
 						calculateConversions = true;
-						System.out.println("==============  from advertisers Day Part :"+input.getReportType());
-						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER_DAYPART, context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());	
+						query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS_DAYPART, context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.GRANULAR)) {
-						
-						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.ADVERTISER_GRANULAR, input.getFilterType(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId());
+						query = DynamicGranularQuerysList.getGranularReportQuery(StaticReports.OFFERS_GRANULAR, input.getFilterType(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.STATE_GRANULAR)) {
-						
-						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.ADVERTISER_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", input.getState());
+						query = DynamicGranularQuerysList.getStateGranularReportQuery(StaticReports.OFFERS_STATE_GRANULAR, input.getFilterType(),input.getState(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId()).replace("?4", input.getState());
 					}else if(input.getReportType().equalsIgnoreCase(StaticReports.DAYPART_GRANULAR)) {
-						
-						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.ADVERTISER_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
-								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getAdvertiserId()).replace("?4", String.valueOf(input.getHour()));
+						query = DynamicGranularQuerysList.getDaypartGranularReportQuery(StaticReports.OFFERS_DAYPART_GRANULAR, input.getFilterType(),input.getHour(), context)
+								.replace("?1", dateRange[0]).replace("?2", dateRange[1]).replace("?3", input.getOfferId()).replace("?4", String.valueOf(input.getHour()));
 					}
 				}else {
 					calculateConversions = true;
-					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.ADVERTISER, context)
+					query = DynamicQuerysList.getGeneralReportQuery(StaticReports.OFFERS, context)
 							.replace("?1", dateRange[0]).replace("?2", dateRange[1]);
+
 				}
 
 				System.out.println("Executing Query : "+query+"\n");
@@ -81,21 +76,21 @@ public class AdvertisersHandler implements RequestHandler<Request, List<GeneralR
 				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// Get the Avg values. For Granular reports we don't need these values.
 				if(finalResults != null && calculateConversions){
-					context.getLogger().log("Size of the Advertisers : "+finalResults.size()+"\n");
+					context.getLogger().log("Size of the OffersReports : "+finalResults.size()+"\n");
 					finalResults = AppUtils.getFinalResulsAfterConversions(finalResults, context);
-					context.getLogger().log("After Conversions Size of the Advertisers : "+finalResults.size()+"\n");
+					context.getLogger().log("After Conversions Size of the OffersReports : "+finalResults.size()+"\n");
 				}
-				context.getLogger().log("Before Returning Size of the Advertisers : "+finalResults.size());
+				context.getLogger().log("Before Returning Size of the OffersReports : "+finalResults.size());
 			}
-
+			
 		}catch(Exception e) {
-			context.getLogger().log("Some error in AdvertisersHandler : " + e.getMessage());
+			context.getLogger().log("Some error in OffersReportsHandler : " + e.getMessage());
 		}finally {
 			DbUtils.closeQuietly(rs);
-			DbUtils.closeQuietly(statement);
-			DbUtils.closeQuietly(conn);
+		    DbUtils.closeQuietly(statement);
+		    DbUtils.closeQuietly(conn);
 		}
-
+		
 		return finalResults;
 
 	}
