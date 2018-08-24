@@ -11,17 +11,17 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.aws.athena.querys.DynamicQuerysList;
-import com.callx.aws.athena.querys.GeneralQuerysList;
+import com.callx.aws.lambda.dto.CallXReportsResponseDTO;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.AppUtils;
 import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class IVRFeeHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class IVRFeeHandler implements RequestHandler<Request, CallXReportsResponseDTO<List<GeneralReportDTO>>> {
 
 	@Override
-	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
+	public CallXReportsResponseDTO<List<GeneralReportDTO>> handleRequest(Request input, Context context) {
 		
 		context.getLogger().log("Input from Offer By PromoNumbers Handler: " + input+"\n");
 
@@ -30,7 +30,9 @@ public class IVRFeeHandler implements RequestHandler<Request, List<GeneralReport
 		Statement statement = null;
 		ResultSet rs = null;
 		
-		List<GeneralReportDTO> results = new ArrayList<>();
+		List<GeneralReportDTO> finalResults = new ArrayList<>();
+		CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
+		
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
@@ -53,12 +55,24 @@ public class IVRFeeHandler implements RequestHandler<Request, List<GeneralReport
 				System.out.println("Executing Query : "+query);
 
 				rs = statement.executeQuery(query);
-				results = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
+				finalResults = resultSetMapper.mapRersultSetToObject(rs, GeneralReportDTO.class);
 				// print out the list retrieved from database
-				if(results != null){
-					context.getLogger().log("Size of the OfferByPromoNumbers : "+results.size());
+				if(finalResults != null){
+					context.getLogger().log("Size of the OfferByPromoNumbers : "+finalResults.size());
 				}
+				if(finalResults.isEmpty()){
+					response.setStatusCode(200);
+					response.setTitle("no data");
+					response.setStatus("no data");
+				}else{
+					response.setStatusCode(200);
+					response.setTitle("success");
+					response.setStatus("success");
+				}
+
+				response.setData(finalResults);	
 			}
+			return response;
 
 		}catch(Exception e) {
 			context.getLogger().log("Some error in OfferByPromoNumbersHandler : " + e.getMessage());
@@ -68,7 +82,7 @@ public class IVRFeeHandler implements RequestHandler<Request, List<GeneralReport
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return results;
+		return response;
 
 	}
 

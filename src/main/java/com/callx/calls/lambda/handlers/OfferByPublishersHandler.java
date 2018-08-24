@@ -13,16 +13,17 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
+import com.callx.aws.lambda.dto.CallXReportsResponseDTO;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.AppUtils;
 import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class OfferByPublishersHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class OfferByPublishersHandler implements RequestHandler<Request, CallXReportsResponseDTO<List<GeneralReportDTO>>> {
 
 	@Override
-	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
+	public CallXReportsResponseDTO<List<GeneralReportDTO>> handleRequest(Request input, Context context) {
 		
 		context.getLogger().log("Input from Offer by PublishersHandler: " + input+"\n");
 
@@ -31,6 +32,8 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 		Statement statement = null;
 		ResultSet rs = null;
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
+		CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
+		
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
@@ -82,8 +85,19 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 					context.getLogger().log("After Conversions Size of the OfferByPublishers : "+finalResults.size()+"\n");
 				}
 				context.getLogger().log("Before Returning Size of the OfferByPublishers : "+finalResults.size());
+				if(finalResults.isEmpty()){
+					response.setStatusCode(200);
+					response.setTitle("no data");
+					response.setStatus("no data");
+				}else{
+					response.setStatusCode(200);
+					response.setTitle("success");
+					response.setStatus("success");
+				}
+
+				response.setData(finalResults);	
 			}
-			
+			return response;
 		}catch(Exception e) {
 			context.getLogger().log("Some error in OfferByPublishers : " + e.getMessage());
 		}finally {
@@ -92,7 +106,7 @@ public class OfferByPublishersHandler implements RequestHandler<Request, List<Ge
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return finalResults;
+		return response;
 
 	}
 

@@ -39,13 +39,13 @@ public class GeneralReportDTO {
 	private BigDecimal offer_not_found;
 	
 	@Column(name="total_revenue")
-	private BigDecimal total_revenue;
+	private BigDecimal revenue;
 	
 	@Column(name="publisher_revenue")
 	private BigDecimal publisher_revenue;
 	
 	@Column(name="profit")
-	private BigDecimal total_profit;
+	private BigDecimal profit;
 	
 	@Column(name="conv_rate")
 	private BigDecimal conv;
@@ -90,13 +90,13 @@ public class GeneralReportDTO {
 	private String advertiser_name;
 	
 	@Column(name="to_number")
-	private String to_number;
+	private String promo_number;
 	
 	@Column(name="promo_id")
 	private String promo_id;
 	
 	@Column(name="description")
-	private String description;
+	private String promo_number_description;
 	
 	@Column(name="processed_ivr_keys")
 	private String processed_ivr_keys; 
@@ -142,7 +142,7 @@ public class GeneralReportDTO {
 	private BigDecimal outbound_cost;
 	
 	@Column(name="total_cost")
-	private BigDecimal total_cost;
+	private BigDecimal cost;
 	
 	@Column(name="from_state")
 	private String from_state;
@@ -208,7 +208,7 @@ public class GeneralReportDTO {
 	private String selected_ivr_keys;
 
 	@Column(name="created_at")
-	private String createdAt;
+	private String created_at;
 
 	public int getId() {
 		return id;
@@ -282,12 +282,12 @@ public class GeneralReportDTO {
 		this.offer_not_found = offer_not_found;
 	}
 
-	public BigDecimal getTotal_revenue() {
-		return total_revenue;
+	public BigDecimal getRevenue() {
+		return revenue;
 	}
 
-	public void setTotal_revenue(BigDecimal total_revenue) {
-		this.total_revenue = total_revenue;
+	public void setRevenue(BigDecimal revenue) {
+		this.revenue = revenue;
 	}
 
 	public BigDecimal getPublisher_revenue() {
@@ -298,12 +298,12 @@ public class GeneralReportDTO {
 		this.publisher_revenue = publisher_revenue;
 	}
 
-	public BigDecimal getTotal_profit() {
-		return total_profit;
+	public BigDecimal getProfit() {
+		return profit;
 	}
 
-	public void setTotal_profit(BigDecimal total_profit) {
-		this.total_profit = total_profit;
+	public void setProfit(BigDecimal profit) {
+		this.profit = profit;
 	}
 
 	public BigDecimal getConv() {
@@ -417,13 +417,21 @@ public class GeneralReportDTO {
 	public void setAdvertiser_name(String advertiser_name) {
 		this.advertiser_name = advertiser_name;
 	}
-
-	public String getTo_number() {
-		return to_number;
+	
+	public String getPromo_number() {
+		return promo_number;
 	}
 
-	public void setTo_number(String to_number) {
-		this.to_number = to_number;
+	public void setPromo_number(String promo_number) {
+		this.promo_number = promo_number;
+	}
+
+	public String getPromo_number_description() {
+		return promo_number_description;
+	}
+
+	public void setPromo_number_description(String promo_number_description) {
+		this.promo_number_description = promo_number_description;
 	}
 
 	public String getPromo_id() {
@@ -432,14 +440,6 @@ public class GeneralReportDTO {
 
 	public void setPromo_id(String promo_id) {
 		this.promo_id = promo_id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getProcessed_ivr_keys() {
@@ -554,12 +554,12 @@ public class GeneralReportDTO {
 		this.outbound_cost = outbound_cost;
 	}
 
-	public BigDecimal getTotal_cost() {
-		return total_cost;
+	public BigDecimal getCost() {
+		return cost;
 	}
 
-	public void setTotal_cost(BigDecimal total_cost) {
-		this.total_cost = total_cost;
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
 	}
 
 	public String getFrom_state() {
@@ -730,12 +730,12 @@ public class GeneralReportDTO {
 		this.selected_ivr_keys = selected_ivr_keys;
 	}
 
-	public String getCreatedAt() {
-		return createdAt;
+	public String getCreated_at() {
+		return created_at;
 	}
 
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
 	}
 
 	@Override
@@ -743,28 +743,32 @@ public class GeneralReportDTO {
 		return "GeneralReportDTO [id=" + id + ", campaign_id=" + campaign_id + ", publisher_id=" + publisher_id
 				+ ", total_calls=" + total_calls + ", repeat_calls=" + repeat_calls + ", repeat_calls_per="
 				+ repeat_calls_per + ", unique_calls=" + unique_calls + ", paid_calls=" + paid_calls
-				+ ", offer_not_found=" + offer_not_found + ", total_revenue=" + total_revenue + ", publisher_revenue="
-				+ publisher_revenue + ", total_profit=" + total_profit + ", conv=" + conv + ", unique_conv="
-				+ unique_conv + ", avg_rpc=" + avg_rpc + ", avg_cpc=" + avg_cpc + ", avg_rpk=" + avg_rpk
-				+ ", connected_duration=" + connected_duration + ", avg_connect_duration=" + avg_connect_duration
+				+ ", offer_not_found=" + offer_not_found + ", revenue=" + revenue + ", publisher_revenue="
+				+ publisher_revenue + ", profit=" + profit + ", conv=" + conv + ", unique_conv=" + unique_conv
+				+ ", avg_rpc=" + avg_rpc + ", avg_cpc=" + avg_cpc + ", avg_rpk=" + avg_rpk + ", connected_duration="
+				+ connected_duration + ", avg_connect_duration=" + avg_connect_duration
 				+ ", avg_connect_duration_paid_calls=" + avg_connect_duration_paid_calls + ", campaign_name="
 				+ campaign_name + ", publisher_name=" + publisher_name + ", offer_id=" + offer_id + ", offer_name="
 				+ offer_name + ", advertiser_id=" + advertiser_id + ", advertiser_name=" + advertiser_name
-				+ ", to_number=" + to_number + ", promo_id=" + promo_id + ", description=" + description
-				+ ", processed_ivr_keys=" + processed_ivr_keys + ", action=" + action + ", filter_name=" + filter_name
-				+ ", filter_id=" + filter_id + ", key_calls=" + key_calls + ", keypress_in_percentage="
-				+ keypress_in_percentage + ", paidCalls_in_percentage=" + paidCalls_in_percentage
-				+ ", paid_keypress_rate=" + paid_keypress_rate + ", avg_call_duration=" + avg_call_duration
-				+ ", inbound_duration=" + inbound_duration + ", outbound_duration=" + outbound_duration
-				+ ", total_duration=" + total_duration + ", inbound_cost=" + inbound_cost + ", outbound_cost="
-				+ outbound_cost + ", total_cost=" + total_cost + ", from_state=" + from_state + ", daypart=" + daypart
-				+ ", call_uuid=" + call_uuid + ", from_number=" + from_number + ", call_type=" + call_type
+				+ ", promo_number=" + promo_number + ", promo_id=" + promo_id + ", promo_number_description="
+				+ promo_number_description + ", processed_ivr_keys=" + processed_ivr_keys + ", action=" + action
+				+ ", filter_name=" + filter_name + ", filter_id=" + filter_id + ", key_calls=" + key_calls
+				+ ", keypress_in_percentage=" + keypress_in_percentage + ", paidCalls_in_percentage="
+				+ paidCalls_in_percentage + ", paid_keypress_rate=" + paid_keypress_rate + ", avg_call_duration="
+				+ avg_call_duration + ", inbound_duration=" + inbound_duration + ", outbound_duration="
+				+ outbound_duration + ", total_duration=" + total_duration + ", inbound_cost=" + inbound_cost
+				+ ", outbound_cost=" + outbound_cost + ", cost=" + cost + ", from_state=" + from_state + ", daypart="
+				+ daypart + ", call_uuid=" + call_uuid + ", from_number=" + from_number + ", call_type=" + call_type
 				+ ", answer_type=" + answer_type + ", agent_id=" + agent_id + ", from_line_type=" + from_line_type
 				+ ", from_city=" + from_city + ", from_country=" + from_country + ", from_zip=" + from_zip
 				+ ", b_leg_duration=" + b_leg_duration + ", status=" + status + ", duration=" + duration + ", repeat="
 				+ repeat + ", file_url=" + file_url + ", algo=" + algo + ", keyword=" + keyword
 				+ ", keyword_match_type=" + keyword_match_type + ", ad_group_name=" + ad_group_name
-				+ ", selected_ivr_keys=" + selected_ivr_keys + ", createdAt=" + createdAt + "]";
+				+ ", selected_ivr_keys=" + selected_ivr_keys + ", created_at=" + created_at + "]";
 	}
+
 	
+
+	
+
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.callx.aws.athena.querys.SalesCountQuerysList;
+import com.callx.aws.athena.querys.SalesConversionQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
 import com.callx.aws.lambda.dto.SaleCountReportDTO;
 import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
@@ -45,35 +45,35 @@ public class SaleCountHandler implements RequestHandler<Request, List<SaleCountR
 				
 				if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_CAMPAIGN)) {
 				
-					query = SalesCountQuerysList.campaignSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.campaignSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_CAMPAIGNSBYPUBLISHER)) {
 					
-					query = SalesCountQuerysList.campaignByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.campaignByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFER)) {
 					
-					query = SalesCountQuerysList.offerSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.offerSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 				
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERSBYPUBLISHER)) {
 					
-					query = SalesCountQuerysList.offerByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.offerByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PROMONUMBER)) {
 					
-					query = SalesCountQuerysList.promoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.promoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERBYPROMONUMBER)) {
 					
-					query = SalesCountQuerysList.offerByPromoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.offerByPromoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_ADVERTISER)) {
 					
-					query = SalesCountQuerysList.advertiser.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.advertiser.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PUBLISHER)) {
 					
-					query = SalesCountQuerysList.publisher.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+					query = SalesConversionQuerysList.publisher.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 				}
 				context.getLogger().log("======= Before Executing the Query ================"+"\n");
 				context.getLogger().log(query);

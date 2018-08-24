@@ -15,16 +15,16 @@ import org.apache.commons.dbutils.DbUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.callx.aws.athena.querys.DynamicQuerysList;
-import com.callx.aws.athena.querys.GeneralQuerysList;
+import com.callx.aws.lambda.dto.CallXReportsResponseDTO;
 import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
 
-public class KeyPressHandler implements RequestHandler<Request, List<GeneralReportDTO>> {
+public class KeyPressHandler implements RequestHandler<Request, CallXReportsResponseDTO<List<GeneralReportDTO>>> {
 
 	@Override
-	public List<GeneralReportDTO> handleRequest(Request input, Context context) {
+	public CallXReportsResponseDTO<List<GeneralReportDTO>> handleRequest(Request input, Context context) {
 		
 		context.getLogger().log("Input from KeyPress Handler: " + input+"\n");
 
@@ -35,6 +35,7 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 		
 		List<GeneralReportDTO> results = new ArrayList<>();
 		List<GeneralReportDTO> keyPressReportList = new ArrayList<GeneralReportDTO>();
+		CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
 		try {
 			conn  = JDBCConnection.getConnection();
 			if(conn != null) {
@@ -84,7 +85,7 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 
 					keypressReportDto.setKey_calls(report.getKey_calls());
 					keypressReportDto.setPaid_calls(report.getPaid_calls());
-					keypressReportDto.setTotal_revenue(report.getTotal_revenue());
+					keypressReportDto.setRevenue(report.getRevenue());
 
 					BigDecimal percentageKeyPressCalls = (new BigDecimal(report.getKey_calls()))
 							.divide(new BigDecimal(campaignMapData.get(report.getCampaign_id())), 2, RoundingMode.FLOOR);
@@ -92,7 +93,7 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 							.divide(new BigDecimal(campaignMapData.get(report.getCampaign_id())), 2, RoundingMode.FLOOR);
 					BigDecimal percentagePaidVsKeyPress = (report.getPaid_calls())
 							.divide(new BigDecimal(report.getKey_calls()), 2, RoundingMode.FLOOR);
-					BigDecimal avgRpk = report.getTotal_revenue().divide(new BigDecimal(report.getKey_calls()), 2,
+					BigDecimal avgRpk = report.getRevenue().divide(new BigDecimal(report.getKey_calls()), 2,
 							RoundingMode.FLOOR);
 
 					keypressReportDto.setKeypress_in_percentage(percentageKeyPressCalls);
@@ -105,8 +106,20 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 					keyPressReportList.add(keypressReportDto);
 
 				}
+				if(keyPressReportList.isEmpty()){
+					response.setStatusCode(200);
+					response.setTitle("no data");
+					response.setStatus("no data");
+				}else{
+					response.setStatusCode(200);
+					response.setTitle("success");
+					response.setStatus("success");
+				}
+
+				response.setData(keyPressReportList);	
+				
 			}
-			
+			return response;
 		}catch(Exception e) {
 			context.getLogger().log("Some error in KeyPressHandler : " + e.getMessage());
 		}finally {
@@ -115,7 +128,7 @@ public class KeyPressHandler implements RequestHandler<Request, List<GeneralRepo
 		    DbUtils.closeQuietly(conn);
 		}
 		
-		return keyPressReportList;
+		return response;
 
 	}
 }

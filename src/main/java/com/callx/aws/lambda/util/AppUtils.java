@@ -72,14 +72,16 @@ public class AppUtils {
 				dto.setUnique_calls(new BigDecimal(AppUtils.getStringObject(dto.getTotal_calls())).subtract(new BigDecimal(AppUtils.getStringObject(dto.getRepeat_calls()))));
 				dto.setAvg_connect_duration(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0").toString() : new BigDecimal(AppUtils.getStringObject(dto.getConnected_duration()))
 						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotal_calls())), 2, RoundingMode.HALF_UP).toString());
-				dto.setAvg_rpc(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getTotal_revenue()))
+				dto.setAvg_rpc(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getRevenue()))
 						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotal_calls())), 2,RoundingMode.HALF_UP));
-				dto.setAvg_cpc(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getTotal_cost()))
+				dto.setAvg_cpc(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getCost()))
 						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotal_calls())), 2,RoundingMode.HALF_UP));
 				dto.setConv(AppUtils.getStringObject(dto.getTotal_calls()).equals("0") ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getPaid_calls()))
 						.divide(new BigDecimal(AppUtils.getStringObject(dto.getTotal_calls())), 2,RoundingMode.HALF_UP));
 				dto.setUnique_conv(dto.getUnique_calls().compareTo(BigDecimal.ZERO) == 0 ? new BigDecimal("0") : new BigDecimal(AppUtils.getStringObject(dto.getPaid_calls()))
 						.divide(dto.getUnique_calls(), 2,RoundingMode.HALF_UP));
+				dto.setAvg_connect_duration_paid_calls(AppUtils.getStringObject(dto.getPaid_calls()).equals("0") ? "0" :new BigDecimal(AppUtils.getStringObject(dto.getConnected_duration()))
+						.divide(new BigDecimal(AppUtils.getStringObject(dto.getPaid_calls())), 2, RoundingMode.HALF_UP).toString());
 				
 			}
 			return finalResults;

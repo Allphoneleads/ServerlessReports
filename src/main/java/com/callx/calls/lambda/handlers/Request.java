@@ -5,6 +5,7 @@ package com.callx.calls.lambda.handlers;
  */
 public class Request {
     
+	private String id;
 	private String ref;
     private String refFrom;
     private String refTo;
@@ -18,12 +19,20 @@ public class Request {
     private String advertiserId;
     private String campPubId;
     private String offerByPromoId;
+    private String offerByPromonumber;
     private String offerByPubId;
+    private String promoNumber;
     private String state;
     private int hour;
+    private String searchTerm;
     
-
-    public String getRef() {
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getRef() {
 		return ref;
 	}
 	public void setRef(String ref) {
@@ -53,7 +62,6 @@ public class Request {
 	public void setReportType(String reportType) {
 		this.reportType = reportType;
 	}
-	
 	public String getFilterType() {
 		return filterType;
 	}
@@ -102,11 +110,23 @@ public class Request {
 	public void setOfferByPromoId(String offerByPromoId) {
 		this.offerByPromoId = offerByPromoId;
 	}
+	public String getOfferByPromonumber() {
+		return offerByPromonumber;
+	}
+	public void setOfferByPromonumber(String offerByPromonumber) {
+		this.offerByPromonumber = offerByPromonumber;
+	}
 	public String getOfferByPubId() {
 		return offerByPubId;
 	}
 	public void setOfferByPubId(String offerByPubId) {
 		this.offerByPubId = offerByPubId;
+	}
+	public String getPromoNumber() {
+		return promoNumber;
+	}
+	public void setPromoNumber(String promoNumber) {
+		this.promoNumber = promoNumber;
 	}
 	public String getState() {
 		return state;
@@ -120,13 +140,21 @@ public class Request {
 	public void setHour(int hour) {
 		this.hour = hour;
 	}
+	
+	public String getSearchTerm() {
+		return searchTerm;
+	}
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
+	}
 	@Override
 	public String toString() {
-		return "Request [ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport=" + isExport
-				+ ", reportType=" + reportType + ", filterType=" + filterType + ", campaignId=" + campaignId
+		return "Request [id=" + id + ", ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport="
+				+ isExport + ", reportType=" + reportType + ", filterType=" + filterType + ", campaignId=" + campaignId
 				+ ", publisherId=" + publisherId + ", offerId=" + offerId + ", promoId=" + promoId + ", advertiserId="
-				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId + ", offerByPubId="
-				+ offerByPubId + ", state=" + state + ", hour=" + hour + "]";
+				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId
+				+ ", offerByPromonumber=" + offerByPromonumber + ", offerByPubId=" + offerByPubId + ", promoNumber="
+				+ promoNumber + ", state=" + state + ", hour=" + hour + ", searchTerm=" + searchTerm + "]";
 	}
 	
 }
