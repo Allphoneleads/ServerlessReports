@@ -33,6 +33,12 @@ public class SaleCountReportDTO {
 	@Column(name="offer_name")
 	private String offerName;
 	
+	@Column(name="state")
+	private String from_state;
+	
+	@Column(name="end_time")
+	private String daypart;
+	
 	@Column(name="sale_count")
 	private int saleCount;
 
@@ -107,6 +113,21 @@ public class SaleCountReportDTO {
 	public void setOfferName(String offerName) {
 		this.offerName = offerName;
 	}
+	public String getFrom_state() {
+		return from_state;
+	}
+
+	public void setFrom_state(String from_state) {
+		this.from_state = from_state;
+	}
+
+	public String getDaypart() {
+		return daypart;
+	}
+
+	public void setDaypart(String daypart) {
+		this.daypart = daypart;
+	}
 
 	public int getSaleCount() {
 		return saleCount;
@@ -121,7 +142,9 @@ public class SaleCountReportDTO {
 		return "SaleCountReportDTO [campaignId=" + campaignId + ", campaignName=" + campaignName + ", advertiserId="
 				+ advertiserId + ", advertiserName=" + advertiserName + ", publisherId=" + publisherId
 				+ ", publisherName=" + publisherName + ", promoNumber=" + promoNumber + ", offerId=" + offerId
-				+ ", offerName=" + offerName + ", saleCount=" + saleCount + "]";
+				+ ", offerName=" + offerName + ", from_state=" + from_state + ", daypart=" + daypart + ", saleCount="
+				+ saleCount + "]";
 	}
 
+	
 }
