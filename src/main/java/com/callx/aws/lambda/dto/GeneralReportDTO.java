@@ -77,7 +77,7 @@ public class GeneralReportDTO {
 	@Column(name="publisher_name")
 	private String publisher_name;
 	
-	@Column(name="offer_id")
+	@Column(name="offerid")
 	private int offer_id;
 	
 	@Column(name="offer_name")
