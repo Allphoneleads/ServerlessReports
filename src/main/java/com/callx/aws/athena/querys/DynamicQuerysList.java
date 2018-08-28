@@ -17,7 +17,7 @@ public class DynamicQuerysList {
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n";
 	
 	
-	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
+	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_calls_athena  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
 	
 	
 	public static final String IVR_FEES_CAMPAIGNS="select campaign_name, \n" + 
@@ -27,7 +27,7 @@ public class DynamicQuerysList {
 			"           ROUND(SUM(provider_cost),2) as inbound_cost, \n" + 
 			"           ROUND(SUM(b_leg_total_cost),2) AS outbound_cost,\n" + 
 			"           SUM(total_cost) AS total_cost\n" + 
-			"           from calls_reporting.callx_history_parquet\n" + 
+			"           from calls_reporting.callx_calls_athena\n" + 
 			"           WHERE campaign_id is not null\n" + 
 			"           and ymdhm >= ?1 and ymdhm < ?2\n" + 
 			"           GROUP BY campaign_name";
@@ -39,7 +39,7 @@ public class DynamicQuerysList {
 			"           ROUND(SUM(provider_cost),2) as inbound_cost, \n" + 
 			"	        ROUND(SUM(b_leg_total_cost),2) AS outbound_cost,\n" + 
 			"           SUM(total_cost) AS total_cost\n" + 
-			"           from calls_reporting.callx_history_parquet\n" + 
+			"           from calls_reporting.callx_calls_athena\n" + 
 			"           WHERE to_number is not null\n" + 
 			"           and ymdhm >= ?1 and ymdhm < ?2\n" + 
 			"           GROUP BY to_number";
@@ -53,7 +53,7 @@ public class DynamicQuerysList {
 			"			SUM(CASE WHEN STATUS = 'unpaid' OR STATUS='Unpaid - Daily Budget Met' THEN 0 ELSE 1 END) AS paid_calls,\n" + 
 			"			SUM(total_revenue) AS total_revenue, \n" + 
 			"			SUM(duration) as  total_duration \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2  " +
+			"			FROM calls_reporting.callx_calls_athena  where ymdhm >= ?1 and ymdhm < ?2  " +
 			"           group by campaign_id,campaign_name,filter_name, processed_ivr_keys,filter_id, ivr_action";
 	
 	public static String getGeneralReportQuery(String reportType, Context context ) {

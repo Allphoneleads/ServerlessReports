@@ -12,7 +12,7 @@ public class DynamicGranularQuerysList {
 			                   + " keyword, keywordmatchtype,/*ad_group_name,*/  offer_not_found, filter_name, campaign_name, selected_ivr_keys, created_at";
 	
 	
-	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_history_parquet where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
+	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_calls_athena where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
 	
 	
 	
