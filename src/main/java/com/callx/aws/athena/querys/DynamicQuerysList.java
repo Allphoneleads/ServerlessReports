@@ -17,7 +17,7 @@ public class DynamicQuerysList {
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n";
 	
 	
-	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_calls_athena  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
+	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_calls_athena  where ymdhm >= ?1 and ymdhm < ?2 AND test=false ";
 	
 	
 	public static final String IVR_FEES_CAMPAIGNS="select campaign_name, \n" + 
