@@ -99,7 +99,7 @@ public class GeneralReportDTO {
 	private String promo_number_description;
 	
 	@Column(name="processed_ivr_keys")
-	private String processed_ivr_keys; 
+	private String keypress; 
 	
 	@Column(name="ivr_action")
 	private String action; 
@@ -442,12 +442,12 @@ public class GeneralReportDTO {
 		this.promo_id = promo_id;
 	}
 
-	public String getProcessed_ivr_keys() {
-		return processed_ivr_keys;
+	public String getKeypress() {
+		return keypress;
 	}
 
-	public void setProcessed_ivr_keys(String processed_ivr_keys) {
-		this.processed_ivr_keys = processed_ivr_keys;
+	public void setKeypress(String keypress) {
+		this.keypress = keypress;
 	}
 
 	public String getAction() {
@@ -751,14 +751,14 @@ public class GeneralReportDTO {
 				+ campaign_name + ", publisher_name=" + publisher_name + ", offer_id=" + offer_id + ", offer_name="
 				+ offer_name + ", advertiser_id=" + advertiser_id + ", advertiser_name=" + advertiser_name
 				+ ", promo_number=" + promo_number + ", promo_id=" + promo_id + ", promo_number_description="
-				+ promo_number_description + ", processed_ivr_keys=" + processed_ivr_keys + ", action=" + action
-				+ ", filter_name=" + filter_name + ", filter_id=" + filter_id + ", key_calls=" + key_calls
-				+ ", keypress_in_percentage=" + keypress_in_percentage + ", paidCalls_in_percentage="
-				+ paidCalls_in_percentage + ", paid_keypress_rate=" + paid_keypress_rate + ", avg_call_duration="
-				+ avg_call_duration + ", inbound_duration=" + inbound_duration + ", outbound_duration="
-				+ outbound_duration + ", total_duration=" + total_duration + ", inbound_cost=" + inbound_cost
-				+ ", outbound_cost=" + outbound_cost + ", cost=" + cost + ", from_state=" + from_state + ", daypart="
-				+ daypart + ", call_uuid=" + call_uuid + ", from_number=" + from_number + ", call_type=" + call_type
+				+ promo_number_description + ", keypress=" + keypress + ", action=" + action + ", filter_name="
+				+ filter_name + ", filter_id=" + filter_id + ", key_calls=" + key_calls + ", keypress_in_percentage="
+				+ keypress_in_percentage + ", paidCalls_in_percentage=" + paidCalls_in_percentage
+				+ ", paid_keypress_rate=" + paid_keypress_rate + ", avg_call_duration=" + avg_call_duration
+				+ ", inbound_duration=" + inbound_duration + ", outbound_duration=" + outbound_duration
+				+ ", total_duration=" + total_duration + ", inbound_cost=" + inbound_cost + ", outbound_cost="
+				+ outbound_cost + ", cost=" + cost + ", from_state=" + from_state + ", daypart=" + daypart
+				+ ", call_uuid=" + call_uuid + ", from_number=" + from_number + ", call_type=" + call_type
 				+ ", answer_type=" + answer_type + ", agent_id=" + agent_id + ", from_line_type=" + from_line_type
 				+ ", from_city=" + from_city + ", from_country=" + from_country + ", from_zip=" + from_zip
 				+ ", b_leg_duration=" + b_leg_duration + ", status=" + status + ", duration=" + duration + ", repeat="
@@ -766,9 +766,5 @@ public class GeneralReportDTO {
 				+ ", keyword_match_type=" + keyword_match_type + ", ad_group_name=" + ad_group_name
 				+ ", selected_ivr_keys=" + selected_ivr_keys + ", created_at=" + created_at + "]";
 	}
-
-	
-
-	
 
 }

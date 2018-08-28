@@ -81,7 +81,7 @@ public class KeyPressHandler implements RequestHandler<Request, CallXReportsResp
 					keypressReportDto.setFilter_name(report.getFilter_name());
 					keypressReportDto.setAction(report.getAction());
 					keypressReportDto.setTotal_calls(new BigDecimal(campaignMapData.get(report.getCampaign_id())));
-					keypressReportDto.setProcessed_ivr_keys(report.getProcessed_ivr_keys());
+					keypressReportDto.setKeypress(report.getKeypress());
 
 					keypressReportDto.setKey_calls(report.getKey_calls());
 					keypressReportDto.setPaid_calls(report.getPaid_calls());

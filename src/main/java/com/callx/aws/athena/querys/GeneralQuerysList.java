@@ -12,7 +12,7 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			campaign_id, campaign_name \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0*/ group by campaign_id, campaign_name	";
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 group by campaign_id, campaign_name	";
 
 
 
@@ -26,7 +26,7 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			campaign_id, campaign_name, publisher_id, publisher_name \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0*/  group by campaign_id,campaign_name, publisher_id, publisher_name";
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0  group by campaign_id,campaign_name, publisher_id, publisher_name";
 
 	public static final String OFFERS= "SELECT count(*) as calls, \n" + 
 			"			SUM(CASE WHEN STATUS = 'paid' THEN 1 ELSE 0 END) AS paid_calls, \n" + 
@@ -37,8 +37,8 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			offerid, advertiser_id,offer_name,advertiser_name\n" + 
-			"           FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0\n" + 
-			"           AND offerid > 0*/ AND offer_name is not null group by offerid,advertiser_id,offer_name,advertiser_name";
+			"           FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0\n" + 
+			"           AND offerid > 0 AND offer_name is not null group by offerid,advertiser_id,offer_name,advertiser_name";
 
 	public static final String OFFERS_BY_PUBLISHERS= "SELECT count(*) as calls, \n" + 
 			"			SUM(CASE WHEN STATUS = 'paid' THEN 1 ELSE 0 END) AS paid_calls, \n" + 
@@ -49,8 +49,8 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			offerid, advertiser_id, offer_name, advertiser_name, publisher_id, publisher_name  \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0\n" + 
-			"           AND offerid > 0*/  AND offer_name is not null  group by offerid, publisher_id, advertiser_id,advertiser_name,\n" + 
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0\n" + 
+			"           AND offerid > 0  AND offer_name is not null  group by offerid, publisher_id, advertiser_id,advertiser_name,\n" + 
 			"           publisher_name,offer_name";
 
 
@@ -63,7 +63,7 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			promo_id, campaign_id,publisher_id, to_number, campaign_name, publisher_name, description  \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0*/ group by  "+
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 group by  "+
 			"           promo_id, campaign_id,publisher_id, to_number, campaign_name, publisher_name, description";
 
 	public static final String OFFERS_BY_PROMO_NUMBER= "SELECT count(*) as calls, \n" + 
@@ -75,8 +75,8 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n" + 
 			"			offerid, advertiser_id, offer_name, advertiser_name, promo_id, to_number, description  \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0\n" + 
-			"           AND offerid > 0*/  AND offer_name is not null group by offerid, promo_id,advertiser_id,offer_name,advertiser_name,\n" + 
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0\n" + 
+			"           AND offerid > 0  AND offer_name is not null group by offerid, promo_id,advertiser_id,offer_name,advertiser_name,\n" + 
 			"           to_number,description";
 
 
@@ -90,7 +90,7 @@ public class GeneralQuerysList {
 			"			SUM(connected_duration) AS connected_duration, \n" + 
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found,\n" + 
 			"			advertiser_id, advertiser_name \n" + 
-			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0*/ AND "+
+			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 AND "+
 			"           advertiser_id > 0  group by advertiser_id,advertiser_name";
 
 
@@ -104,7 +104,7 @@ public class GeneralQuerysList {
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found,\n" + 
 			"			publisher_id, publisher_name  \n" + 
 			"			FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 "+
-			"           /*AND is_test=0*/  group by publisher_id,publisher_name";
+			"           AND is_test=0  group by publisher_id,publisher_name";
 
 
 	public static final String IVR_FEES_CAMPAIGNS="select campaign_name, \n" + 

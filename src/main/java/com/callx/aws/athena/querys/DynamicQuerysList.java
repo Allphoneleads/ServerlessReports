@@ -17,7 +17,7 @@ public class DynamicQuerysList {
 			"			SUM(CASE WHEN offer_not_found = true THEN 1 ELSE 0 END) AS offer_not_found, \n";
 	
 	
-	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 /*AND is_test=0*/ ";
+	public static final String DATABASE_AND_DATE_RANGES = " FROM calls_reporting.callx_history_parquet  where ymdhm >= ?1 and ymdhm < ?2 AND is_test=0 ";
 	
 	
 	public static final String IVR_FEES_CAMPAIGNS="select campaign_name, \n" + 
@@ -71,12 +71,12 @@ public class DynamicQuerysList {
 			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS)) {
 				
 				appendQuery = " offerid, advertiser_id,offer_name,advertiser_name "+DATABASE_AND_DATE_RANGES+
-						      " /*AND offerid > 0*/ AND offer_name is not null group by offerid,advertiser_id,offer_name,advertiser_name";
+						      " AND offerid > 0 AND offer_name is not null group by offerid,advertiser_id,offer_name,advertiser_name";
 				
 			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS_BY_PUBLISHERS)) {
 				
 				appendQuery = " offerid, advertiser_id, offer_name, advertiser_name, publisher_id, publisher_name "+DATABASE_AND_DATE_RANGES+
-						      " /*AND offerid > 0*/  AND offer_name is not null  group by offerid, publisher_id, advertiser_id,advertiser_name,publisher_name,offer_name";
+						      " AND offerid > 0  AND offer_name is not null  group by offerid, publisher_id, advertiser_id,advertiser_name,publisher_name,offer_name";
 				
 			}else if(reportType.equalsIgnoreCase(StaticReports.PROMO_NUMBER)) {
 				
@@ -86,7 +86,7 @@ public class DynamicQuerysList {
 			}else if(reportType.equalsIgnoreCase(StaticReports.OFFERS_BY_PROMO_NUMBER)) {
 				
 				appendQuery = " offerid, advertiser_id, offer_name, advertiser_name, promo_id, to_number, description "+DATABASE_AND_DATE_RANGES+
-						      " /*AND offerid > 0*/  AND offer_name is not null group by offerid, promo_id,advertiser_id,offer_name,advertiser_name,to_number,description";
+						      " AND offerid > 0  AND offer_name is not null group by offerid, promo_id,advertiser_id,offer_name,advertiser_name,to_number,description";
 				
 			}else if(reportType.equalsIgnoreCase(StaticReports.ADVERTISER)) {
 				
