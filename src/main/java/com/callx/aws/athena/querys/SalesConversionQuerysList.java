@@ -52,7 +52,7 @@ public class SalesConversionQuerysList {
 
 	// Sales Geo Query.
 	public static String campaignSalesGeoQuery = "select count(*) as sale_count, campaign_id, campaign_name, state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by campaign_id,campaign_name, state;";
+			+ " where campaign_id=?1 AND timestamp between ?2 and ?3 group by campaign_id,campaign_name, state;";
 
 	public static String campaignByPublisherSalesGeoQuery = "select count(*) as sale_count, campaign_id,  campaign_name,publisher_id, publisher_name, state "
 			+ " from calls_reporting.callx_sales_athena"
@@ -80,7 +80,7 @@ public class SalesConversionQuerysList {
 
 	// Sales Day Part Query 
 	public static String campaignSalesDaypartQuery ="select count(*) as sale_count, campaign_id, campaign_name, end_time from calls_reporting.callx_sales_athena"
-												  + " where timestamp between ?1 and ?2 group by campaign_id,campaign_name, end_time;";
+												  + " where campaign_id=?1 AND timestamp between ?2 and ?3 group by campaign_id,campaign_name, end_time;";
 
 	public static String campaignByPublisherSalesDaypartQuery = "select count(*) as sale_count, campaign_id,  campaign_name,publisher_id, publisher_name, end_time "
 															  + " from calls_reporting.callx_sales_athena"
