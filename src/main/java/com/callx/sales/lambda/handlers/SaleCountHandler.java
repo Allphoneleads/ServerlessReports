@@ -60,11 +60,12 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_CAMPAIGNSBYPUBLISHER)) {
 
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						//String[] ids = 
-						query = SalesConversionQuerysList.campaignByPublisherSalesGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String[] ids = input.getId().split("-"); 
+						query = SalesConversionQuerysList.campaignByPublisherSalesGeoQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.campaignByPublisherSalesDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String[] ids = input.getId().split("-"); 
+						query = SalesConversionQuerysList.campaignByPublisherSalesDaypartQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 					
 					}else {
 						query = SalesConversionQuerysList.campaignByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
@@ -73,10 +74,10 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.offerSalesGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.offerSalesGeoQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerSalesDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.offerSalesDaypartQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.offerSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}
@@ -84,10 +85,12 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERSBYPUBLISHER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.offerByPublisherSalesGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String ids[] = input.getId().split("-");
+						query = SalesConversionQuerysList.offerByPublisherSalesGeoQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerByPublisherSalesDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String ids[] = input.getId().split("-");
+						query = SalesConversionQuerysList.offerByPublisherSalesDaypartQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.offerByPublisherSalesQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}
@@ -95,10 +98,10 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PROMONUMBER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.promoNumberGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.promoNumberGeoQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.promoNumberDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.promoNumberDaypartQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.promoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}
@@ -106,9 +109,11 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERBYPROMONUMBER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.offerByPromoNumberGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String ids[] = input.getId().split("-");
+						query = SalesConversionQuerysList.offerByPromoNumberGeoQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerByPromoNumberDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						String ids[] = input.getId().split("-");
+						query = SalesConversionQuerysList.offerByPromoNumberDaypartQuery.replace("?1", "'"+ids[0]+"'").replace("?2",  "'"+ids[1]+"'").replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.offerByPromoNumber.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}
@@ -116,9 +121,9 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_ADVERTISER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.advertiserGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.advertiserGeoQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.advertiserDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.advertiserDaypartQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.advertiser.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}
@@ -126,10 +131,10 @@ public class SaleCountHandler implements RequestHandler<Request, CallXReportsRes
 
 				}else if(input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PUBLISHER)) {
 					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
-						query = SalesConversionQuerysList.publisherGeoQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.publisherGeoQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.publisherDaypartQuery.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
+						query = SalesConversionQuerysList.publisherDaypartQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
 					}else {
 						query = SalesConversionQuerysList.publisher.replace("?1", "'"+dateRange[0]+"'").replace("?2",  "'"+dateRange[1]+"'");
 					}

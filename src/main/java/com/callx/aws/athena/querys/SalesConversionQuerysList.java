@@ -56,26 +56,26 @@ public class SalesConversionQuerysList {
 
 	public static String campaignByPublisherSalesGeoQuery = "select count(*) as sale_count, campaign_id,  campaign_name,publisher_id, publisher_name, state "
 			+ " from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by campaign_id,publisher_id, campaign_name, publisher_name, state ";
+			+ " where campaign_id=?1 AND publisher_id=?2 AND timestamp between ?3 and ?4 group by campaign_id,publisher_id, campaign_name, publisher_name, state ";
 
 	public static String offerSalesGeoQuery = "select count(*) as sale_count, offer_id, offer_name,state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by offer_id, offer_name,state;";
+			+ " where offerid=?1 AND timestamp between ?2 and ?3 group by offer_id, offer_name,state;";
 
 	public static String offerByPublisherSalesGeoQuery = "select count(*) as sale_count, offer_id, offer_name,publisher_id,publisher_name, state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by offer_id, publisher_id, offer_name, publisher_name,state";
+			+ " where offerid=?1 AND publisher_id=?2 AND timestamp between ?3 and ?4 group by offer_id, publisher_id, offer_name, publisher_name,state";
 
 	public static String promoNumberGeoQuery ="select count(*) as sale_count, promo_number,state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by promo_number,state";
+			+ " where promo_id=?1 AND timestamp between ?2 and ?3 group by promo_number,state";
 
 
 	public static String offerByPromoNumberGeoQuery = "select count(*) as sale_count, offer_id,  offer_name, promo_number,state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by offer_id, promo_number, offer_name,state";
+			+ " where offerid=?1 AND promo_id=?2 AND timestamp between ?3 and ?4 group by offer_id, promo_number, offer_name,state";
 
 	public static String advertiserGeoQuery = "select count(*) as sale_count,advertiser_id, advertiser_name,state  from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by advertiser_id, advertiser_name,state";
+			+ " where advertiser_id=?1 AND timestamp between ?2 and ?3 group by advertiser_id, advertiser_name,state";
 
 	public static String publisherGeoQuery = "select count(*), publisher_id, publisher_name,state from calls_reporting.callx_sales_athena"
-			+ " where timestamp between ?1 and ?2 group by publisher_id, publisher_name,state;";
+			+ " where publisher_id=?1 AND timestamp between ?2 and ?3 group by publisher_id, publisher_name,state;";
 
 
 	// Sales Day Part Query 
@@ -84,26 +84,26 @@ public class SalesConversionQuerysList {
 
 	public static String campaignByPublisherSalesDaypartQuery = "select count(*) as sale_count, campaign_id,  campaign_name,publisher_id, publisher_name, end_time "
 															  + " from calls_reporting.callx_sales_athena"
-															  + " where timestamp between ?1 and ?2 group by campaign_id,publisher_id, campaign_name, publisher_name, end_time ";
+															  + " where campaign_id=?1 AND publisher_id=?2 AND timestamp between ?3 and ?4 group by campaign_id,publisher_id, campaign_name, publisher_name, end_time ";
 
 	public static String offerSalesDaypartQuery = "select count(*) as sale_count, offer_id, offer_name,end_time from calls_reporting.callx_sales_athena"
-												+ " where timestamp between ?1 and ?2 group by offer_id, offer_name,end_time;";
+												+ " where offerid=?1 AND timestamp between ?2 and ?3 group by offer_id, offer_name,end_time;";
 
 	public static String offerByPublisherSalesDaypartQuery = "select count(*) as sale_count, offer_id, offer_name,publisher_id,publisher_name, end_time from calls_reporting.callx_sales_athena"
-														   + " where timestamp between ?1 and ?2 group by offer_id, publisher_id, offer_name, publisher_name,end_time";
+														   + " where offerid=?1 AND publisher_id=?2 AND timestamp between ?3 and ?4 group by offer_id, publisher_id, offer_name, publisher_name,end_time";
 
 	public static String promoNumberDaypartQuery ="select count(*) as sale_count, promo_number,end_time from calls_reporting.callx_sales_athena"
-												+ " where timestamp between ?1 and ?2 group by promo_number,end_time";
+												+ " where promo_id=?1 AND timestamp between ?2 and ?3 group by promo_number,end_time";
 
 
 	public static String offerByPromoNumberDaypartQuery = "select count(*) as sale_count, offer_id,  offer_name, promo_number,end_time from calls_reporting.callx_sales_athena"
-														+ " where timestamp between ?1 and ?2 group by offer_id, promo_number, offer_name,end_time";
+														+ " where offerid=?1 AND promo_id=?2 AND timestamp between ?3 and ?4 group by offer_id, promo_number, offer_name,end_time";
 
 	public static String advertiserDaypartQuery = "select count(*) as sale_count,advertiser_id, advertiser_name,end_time  from calls_reporting.callx_sales_athena"
-												+ " where timestamp between ?1 and ?2 group by advertiser_id, advertiser_name,end_time";
+												+ " where advertiser_id=?1 AND timestamp between ?2 and ?3 group by advertiser_id, advertiser_name,end_time";
 
 	public static String publisherDaypartQuery = "select count(*), publisher_id, publisher_name,end_time from calls_reporting.callx_sales_athena"
-											   + " where timestamp between ?1 and ?2 group by publisher_id, publisher_name,end_time;";
+											   + " where publisher_id=?1 AND timestamp between ?2 and ?3 group by publisher_id, publisher_name,end_time;";
 	
 	
 	
