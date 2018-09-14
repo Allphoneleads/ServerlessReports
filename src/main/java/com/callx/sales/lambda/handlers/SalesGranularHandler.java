@@ -44,20 +44,75 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 				context.getLogger().log("Min Date Range ###### : "+dateRange[0].toString() +" Max Date Range : "+dateRange[1].toString() );
 
 				if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_CAMPAIGN)) {
-					query = SalesConversionQuerysList.campaignSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.campaignSalesGeoGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getState()+"'")
+								                                                       .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.campaignSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getHour()+"'")
+																						   .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.campaignSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					}
 				
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFER)) {
-					query = SalesConversionQuerysList.offerSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
-				
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.offerSalesGeoGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getState()+"'")
+								                                                    .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.offerSalesDayprtGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+								                                                       .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.offerSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					}
+					
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PROMONUMBER)) {
-					query = SalesConversionQuerysList.promonumberSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.promonumberSalesGeoGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getState()+"'")
+								                                                          .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.promonumberSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+								                                                              .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.promonumberSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					}
 				
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_ADVERTISER)) {
-					query = SalesConversionQuerysList.advertiserSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.advertiserSalesGeoGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getState()+"'")
+								                                                         .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.advertiserSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+								                                                             .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.advertiserSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					}
 				
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_PUBLISHER)) {
-					query = SalesConversionQuerysList.publisherSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
-				
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.publisherSalesGeoGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getState()+"'")
+								                                                         .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.publisherSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+								                                                             .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.publisherSalesGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+dateRange[0]+"'").replace("?3",  "'"+dateRange[1]+"'");
+					}
+					
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_CAMPAIGNSBYPUBLISHER)) {
 					
 					String[] parts = input.getId().split("-");
@@ -68,9 +123,19 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 						publisherId = Integer.parseInt(parts[1]);
 					}
 					
-					query = SalesConversionQuerysList.campaignByPublisherSalesGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'")
-													 .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
-				
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.campaignByPublisherSalesGeoGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getState()+"'")
+								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.campaignByPublisherSalesDaypartGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getHour()+"'")
+							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.campaignByPublisherSalesGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'")
+								                                                               .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+					}
+					
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERSBYPUBLISHER)) {
 					String[] parts = input.getId().split("-");
 					int offerId = 0;
@@ -79,8 +144,19 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 						offerId = Integer.parseInt(parts[0]);
 						publisherId = Integer.parseInt(parts[1]);
 					}
-					query = SalesConversionQuerysList.offerByPublisherSalesGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'")
-													 .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.offerByPublisherSalesGeoGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getState()+"'")
+								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.offerByPublisherSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getHour()+"'")
+							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.offerByPublisherSalesGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'")
+								                                                            .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+					}
 				
 				}else if (input.getReportType().equalsIgnoreCase(StaticReports.SALE_TYPE_OFFERBYPROMONUMBER)) {
 					
@@ -91,8 +167,20 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 						offerId = Integer.parseInt(parts[0]);
 						promoNumber = parts[1];
 					}
-					query = SalesConversionQuerysList.offerByPromonumberSalesGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'")
-													 .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+					
+					if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.GEO_TYPE)) {
+						query = SalesConversionQuerysList.offerByPromonumberSalesGeoGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'").replace("?3", "'"+input.getState()+"'")
+								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
+						query = SalesConversionQuerysList.offerByPromonumberSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'").replace("?3", "'"+input.getHour()+"'")
+							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
+
+					}else {
+						query = SalesConversionQuerysList.offerByPromonumberSalesGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'")
+								 .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
+					}
+					
 				
 				}
 				

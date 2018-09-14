@@ -38,7 +38,7 @@ public class SearchHandler implements RequestHandler<Request, CallXReportsRespon
 				
 				context.getLogger().log(" Search Term :"+input.getSearchTerm());
 				
-				String query = "select * FROM calls_reporting.callx_calls_athena_merged_parquet where " 
+				String query = "select * FROM calls_reporting.callx_calls_athena where " 
 						      +" CONCAT(coalesce(campaign_name,''),coalesce(offer_name,''),coalesce(ivr_key,''),coalesce(call_uuid,''),coalesce(to_number,''),coalesce(description,''),"
 						      +" coalesce(call_type,''),coalesce(answer_type,''),coalesce(from_number,''),coalesce(from_caller_name,''),"
 						      +" coalesce(from_line_type,''),coalesce(from_state,''),coalesce(from_city,''),coalesce(from_country,''),coalesce(from_zip,''),"

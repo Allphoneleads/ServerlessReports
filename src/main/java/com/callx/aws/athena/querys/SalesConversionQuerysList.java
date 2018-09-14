@@ -107,6 +107,41 @@ public class SalesConversionQuerysList {
 	
 	
 	
+	//Sales Geo Granular Query 
+	public static String campaignSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where campaign_id=?1 AND state=?2 AND timestamp between ?3 and ?4 ";
+	
+	public static String offerSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND state=?2 AND timestamp between ?3 and ?4;";
+	
+	public static String promonumberSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where promo_number =?1 AND state=?2 AND timestamp between ?3 and ?4;";
+	
+	public static String advertiserSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where advertiser_id =?1 AND state=?2 AND timestamp between ?3 and ?4";
+	
+	public static String publisherSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where publisher_id =?1 AND state=?2 AND timestamp between ?3 and ?4";
+	
+	public static String campaignByPublisherSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where campaign_id =?1 AND publisher_id=?2 AND state=?3 AND timestamp between ?4 and ?5 ";
+	
+	public static String offerByPublisherSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND publisher_id=?2 AND state=?3 AND timestamp between ?4 and ?5";
+	
+	public static String offerByPromonumberSalesGeoGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND promo_number =?2 AND state=?3 AND timestamp between ?4 and ?5";
+	
+	
+	//Sales Daypart Granular Query
+	public static String campaignSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where campaign_id=?1 AND hour(end_time)=?2 AND timestamp between ?3 and ?4 ";
 
+	public static String offerSalesDayprtGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND hour(end_time)=?2 AND timestamp between ?3 and ?4;";
+	
+	public static String promonumberSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where promo_number =?1 AND hour(end_time)=?2 AND timestamp between ?3 and ?4;";
 
+	public static String advertiserSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where advertiser_id =?1 AND hour(end_time)=?2 AND timestamp between ?3 and ?4";
+	
+	public static String publisherSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where publisher_id =?1 AND hour(end_time)=?2 AND timestamp between ?3 and ?4";
+	
+	public static String campaignByPublisherSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where campaign_id =?1 AND publisher_id=?2 AND hour(end_time)=?3 AND timestamp between ?4 and ?5 ";
+	
+	public static String offerByPublisherSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND publisher_id=?2 AND hour(end_time)=?3 AND timestamp between ?4 and ?5";
+	
+	public static String offerByPromonumberSalesDaypartGranularQuery = "select * from calls_reporting.callx_sales_athena where offer_id =?1 AND promo_number =?2 AND hour(end_time)=?3 AND timestamp between ?4 and ?5";
+	
+	
+	
 }
