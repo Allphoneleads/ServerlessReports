@@ -50,7 +50,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                       .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.campaignSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getHour()+"'")
+						query = SalesConversionQuerysList.campaignSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", ""+input.getHour()+"")
 																						   .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -64,7 +64,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                    .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerSalesDayprtGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+						query = SalesConversionQuerysList.offerSalesDayprtGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", ""+input.getHour()+"")
 								                                                       .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -78,7 +78,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                          .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.promonumberSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+						query = SalesConversionQuerysList.promonumberSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", ""+input.getHour()+"")
 								                                                              .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -92,7 +92,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                         .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.advertiserSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+						query = SalesConversionQuerysList.advertiserSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", ""+input.getHour()+"")
 								                                                             .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -106,7 +106,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                         .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.publisherSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", "'"+input.getId()+"'")
+						query = SalesConversionQuerysList.publisherSalesDaypartGranularQuery.replace("?1", "'"+input.getId()+"'").replace("?2", ""+input.getHour()+"")
 								                                                             .replace("?3", "'"+dateRange[0]+"'").replace("?4",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -128,7 +128,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.campaignByPublisherSalesDaypartGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getHour()+"'")
+						query = SalesConversionQuerysList.campaignByPublisherSalesDaypartGranularQuery.replace("?1", "'"+campaignId+"'").replace("?2", "'"+publisherId+"'").replace("?3", ""+input.getHour()+"")
 							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -150,7 +150,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerByPublisherSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'").replace("?3", "'"+input.getHour()+"'")
+						query = SalesConversionQuerysList.offerByPublisherSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+publisherId+"'").replace("?3", ""+input.getHour()+"")
 							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else {
@@ -173,7 +173,7 @@ public class SalesGranularHandler implements RequestHandler<Request, List<SalesG
 								                                                               .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else if(input.getFilterType() != null && input.getFilterType().equalsIgnoreCase(StaticReports.DAYPART)) {
-						query = SalesConversionQuerysList.offerByPromonumberSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'").replace("?3", "'"+input.getHour()+"'")
+						query = SalesConversionQuerysList.offerByPromonumberSalesDaypartGranularQuery.replace("?1", "'"+offerId+"'").replace("?2", "'"+promoNumber+"'").replace("?3", ""+input.getHour()+"")
 							                                                                   .replace("?4", "'"+dateRange[0]+"'").replace("?5",  "'"+dateRange[1]+"'");
 
 					}else {
