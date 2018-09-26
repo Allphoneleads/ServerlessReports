@@ -54,34 +54,38 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 		boolean fileNotExisted = false;
 		
 		try {
-			
+
 			// Get the input object and check for File Name. If the file is existed already, then get the data from that file.
 			if(!input.getFileName().isEmpty() && input.getFileName() != null) {
 				System.out.println("File existed  Name :"+input.getFileName());
 				// Get the file from S3 bucket.
 				BasicAWSCredentials awsCreds = new BasicAWSCredentials(System.getenv("ATHENA_USERNAME"), System.getenv("ATHENA_PASSWORD"));
 				AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-				                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-				                        .build();
-				S3Object object = s3Client.getObject(new GetObjectRequest("lambda-fission", input.getFileName()));
-				
-				if(object != null) {
+						.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+						.build();
+
+				boolean  isObjectExisted = s3Client.doesObjectExist("lambda-fission", input.getFileName());
+
+				System.out.println("Is Object Existed in S3 Bucket :"+isObjectExisted);
+				if(isObjectExisted) {
+					S3Object object = s3Client.getObject(new GetObjectRequest("lambda-fission", input.getFileName()));						
 					response =AppUtils.getNextPageResults(input, context,finalResults, response, object);
-					
+
 					int pagesCount = input.getTotalRecords()/input.getPageSize();
 					if(pagesCount != 0 && pagesCount*input.getPageSize() < input.getTotalRecords())
 						pagesCount = pagesCount + 1;
 					response.setPages(pagesCount);
 					response.setTotalRecords(input.getTotalRecords());
 					response.setFileName(input.getFileName());
-					
+
 				}else {
+					
 					fileNotExisted = true;
 				}
 			}
-			
+
 			if(input.getFileName().isEmpty() || input.getFileName() == null || fileNotExisted) {
-			
+
 				long time = System.currentTimeMillis();
 				context.getLogger().log("Before getting the JDBC connection : "+time+"\n");
 				conn  = JDBCConnection.getConnection();
@@ -151,7 +155,7 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 
 					context.getLogger().log("Before Returning Size of the CampaignReports : "+finalResults.size());
 					response  = AppUtils.getFirstPageResults(input, context,finalResults, response, fileName+".json");
-			}
+				}
 
 				if(finalResults.isEmpty()){
 					response.setStatusCode(200);
