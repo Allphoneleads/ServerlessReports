@@ -118,7 +118,7 @@ public class AppUtils {
 
 
 		try {
-			System.out.println("============== This is a new report request =======================");
+			System.out.println("From First Page Results fucntion call.");
 			File file = new File("/tmp/"+fileName);
 			FileWriter writer = new FileWriter(file); 
 			Gson gson = new Gson();
@@ -133,8 +133,8 @@ public class AppUtils {
 					.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 					.build();
 
-			System.out.println("%%%% : "+s3Client.putObject(new PutObjectRequest("lambda-fission", fileName, new File(file.toString())).withCannedAcl(CannedAccessControlList.PublicRead)));
-			System.out.println("%%%%%%%%%%%%%%%   after upload the file successfully %%%%%%%%%%%%%%%%%%%%%");
+			System.out.println("File Upload : "+s3Client.putObject(new PutObjectRequest("lambda-fission", fileName, new File(file.toString())).withCannedAcl(CannedAccessControlList.PublicRead)));
+			System.out.println("After Uploaded the file successfully.");
 
 			LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(file));
 			lineNumberReader.skip(Long.MAX_VALUE);
@@ -148,9 +148,7 @@ public class AppUtils {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			while ((line = reader.readLine()) != null) {
 				count = count+1;
-				System.out.println("Count of Line Number : "+count);
 				if(count <= input.getPageSize()) {
-					System.out.println("Count ::::"+count);
 					GeneralReportDTO dto = g.fromJson(line, GeneralReportDTO.class);
 					listDTO.add(dto);
 				}else {
@@ -159,14 +157,14 @@ public class AppUtils {
 				}
 			}
 			reader.close();
-			System.out.println("######## : "+listDTO.size());
+			System.out.println("Totla No of Objects : "+listDTO.size());
 			response.setData(listDTO);
 			int pagesCount = lines/input.getPageSize();
 
 			if(pagesCount != 0 && pagesCount*input.getPageSize() < lines)
 				pagesCount = pagesCount + 1;
 
-			System.out.println(" ====== Total No of Pages :"+pagesCount);
+			System.out.println("Total No of Pages :"+pagesCount);
 			response.setPages(pagesCount);
 			response.setTotalRecords(lines);
 			response.setFileName(fileName);
@@ -188,7 +186,7 @@ public class AppUtils {
 			List<GeneralReportDTO> finalResults, CallXReportsResponseDTO<List<GeneralReportDTO>> response, S3Object object){
 
 		try {
-			System.out.println("==========  from getNextPageResults ======"+input.getFileName());
+			System.out.println("From Next Page Results Function Call, File Name : "+input.getFileName());
 			List<GeneralReportDTO> listDTO = new ArrayList<GeneralReportDTO>();
 
 			S3ObjectInputStream stream = object.getObjectContent();
@@ -198,9 +196,7 @@ public class AppUtils {
 			Gson g = new Gson(); 
 			while ((line = reader.readLine()) != null) {
 				count = count+1;
-				System.out.println("@@@@@@@@@@@@@@@ : "+count);
 				if(count > (input.getPageNumber() * input.getPageSize())) {
-					System.out.println("::::"+count);
 					GeneralReportDTO dto = g.fromJson(line, GeneralReportDTO.class);
 					listDTO.add(dto);
 					limit = limit+1;
@@ -220,32 +216,5 @@ public class AppUtils {
 		}
 		return response;
 	}
-	
-	/*public static int getTotalPages(Request input, Context context, AmazonS3 s3Client) {
-		int pagesCount = 0;
-		try {
-			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-			S3ObjectInputStream stream = s3Client.getObject(new GetObjectRequest("lambda-fission", input.getFileName())).getObjectContent();
-			LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(stream));
-			lineNumberReader.skip(Long.MAX_VALUE);
-			int lines = lineNumberReader.getLineNumber();
-			lineNumberReader.close();
-			stream.abort();
-			System.out.println("$$$$$$$$$$$$$$$$$$!!!! : "+lines);
-			pagesCount = lines/input.getPageSize();
-
-			if(pagesCount != 0 && pagesCount*input.getPageSize() < lines)
-				pagesCount = pagesCount + 1;
-
-			System.out.println(" ====== Total No of Pages :"+pagesCount);
-			return pagesCount;
-		}catch(Exception e) {
-			context.getLogger().log("Some error in Get Total Pages : " + e.getMessage());
-			context.getLogger().log("Some error in Get Total Pages : " + e);
-
-		}
-		return pagesCount;
-
-	}*/
 
 }

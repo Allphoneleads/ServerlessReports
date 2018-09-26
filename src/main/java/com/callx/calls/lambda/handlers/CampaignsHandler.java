@@ -28,6 +28,9 @@ import com.callx.aws.lambda.util.ResultSetMapper;
 
 public class CampaignsHandler implements RequestHandler<Request, CallXReportsResponseDTO<List<GeneralReportDTO>>> {
 
+	
+	static String containerId= "";
+	
 	@Override
 	public CallXReportsResponseDTO<List<GeneralReportDTO>> handleRequest(Request input, Context context) {
 		
@@ -36,8 +39,11 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 		CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
 		
 		if(!input.getWarmEvent().isEmpty() && input.getWarmEvent() != null ) {
-			System.out.println("##############  from warm event ##############");
-			response.setStatus("From Warm Event");
+			System.out.println("=============  from warm event =============");
+			if(containerId.isEmpty())
+				containerId  = context.getAwsRequestId();
+			System.out.println("Container Id :"+containerId);
+			response.setStatus("From Warm Event: "+containerId);
 		}else {
 		Connection conn = null;
 		Statement statement = null;
