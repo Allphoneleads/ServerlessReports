@@ -15,6 +15,12 @@ public class CallXReportsResponseDTO<T> {
 	private String fileURL;
 	
 	private T data;
+	
+	private int pages;
+	
+	private int totalRecords;
+	
+	private String fileName;
 
 	/**
 	 * @return the statusCode
@@ -79,7 +85,29 @@ public class CallXReportsResponseDTO<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
-	
+
+	public int getPages() {
+		return pages;
+	}
+
+	public void setPages(int pages) {
+		this.pages = pages;
+	}
+
+	public int getTotalRecords() {
+		return totalRecords;
+	}
+
+	public void setTotalRecords(int totalRecords) {
+		this.totalRecords = totalRecords;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	
 }

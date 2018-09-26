@@ -25,6 +25,12 @@ public class Request {
     private String state;
     private int hour;
     private String searchTerm;
+    private int pageSize;
+    private int pageNumber;
+    private int totalRecords;
+    private String fileName;
+    private String warmEvent;
+    
     
 	public String getId() {
 		return id;
@@ -147,6 +153,38 @@ public class Request {
 	public void setSearchTerm(String searchTerm) {
 		this.searchTerm = searchTerm;
 	}
+	
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public int getPageNumber() {
+		return pageNumber;
+	}
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+	
+	public int getTotalRecords() {
+		return totalRecords;
+	}
+	public void setTotalRecords(int totalRecords) {
+		this.totalRecords = totalRecords;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getWarmEvent() {
+		return warmEvent;
+	}
+	public void setWarmEvent(String warmEvent) {
+		this.warmEvent = warmEvent;
+	}
 	@Override
 	public String toString() {
 		return "Request [id=" + id + ", ref=" + ref + ", refFrom=" + refFrom + ", refTo=" + refTo + ", isExport="
@@ -154,7 +192,11 @@ public class Request {
 				+ ", publisherId=" + publisherId + ", offerId=" + offerId + ", promoId=" + promoId + ", advertiserId="
 				+ advertiserId + ", campPubId=" + campPubId + ", offerByPromoId=" + offerByPromoId
 				+ ", offerByPromonumber=" + offerByPromonumber + ", offerByPubId=" + offerByPubId + ", promoNumber="
-				+ promoNumber + ", state=" + state + ", hour=" + hour + ", searchTerm=" + searchTerm + "]";
+				+ promoNumber + ", state=" + state + ", hour=" + hour + ", searchTerm=" + searchTerm + ", pageSize="
+				+ pageSize + ", pageNumber=" + pageNumber + ", totalRecords=" + totalRecords + ", fileName=" + fileName
+				+ ", warmEvent=" + warmEvent + "]";
 	}
+	
+	
 	
 }
