@@ -18,6 +18,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -133,7 +134,7 @@ public class AppUtils {
 					.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 					.build();
 
-			System.out.println("File Upload : "+s3Client.putObject(new PutObjectRequest("lambda-fission", fileName, new File(file.toString())).withCannedAcl(CannedAccessControlList.PublicRead)));
+			System.out.println("File Upload : "+s3Client.putObject(new PutObjectRequest(System.getenv("S3_BUCKET_NAME"), fileName, new File(file.toString())).withCannedAcl(CannedAccessControlList.PublicRead)));
 			System.out.println("After Uploaded the file successfully.");
 
 			LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(file));
@@ -215,6 +216,46 @@ public class AppUtils {
 			context.getLogger().log("Some error in Next page resuts : " + e);
 		}
 		return response;
+	}
+	
+	public static ReturnTypeCode getResultsFromExistedFile(Request input, Context context, List<GeneralReportDTO> finalResults, CallXReportsResponseDTO<List<GeneralReportDTO>> response) {
+		
+		
+		ReturnTypeCode returnType = new ReturnTypeCode();
+		try {
+			
+			System.out.println("File existed  Name :"+input.getFileName());
+			
+			// Get the file from S3 bucket.
+			BasicAWSCredentials awsCreds = new BasicAWSCredentials(System.getenv("ATHENA_USERNAME"), System.getenv("ATHENA_PASSWORD"));
+			AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+					.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+					.build();
+
+			boolean  isObjectExisted = s3Client.doesObjectExist(System.getenv("S3_BUCKET_NAME"), input.getFileName());
+
+			System.out.println("Is Object Existed in S3 Bucket :"+isObjectExisted);
+			if(isObjectExisted) {
+				S3Object object = s3Client.getObject(new GetObjectRequest(System.getenv("S3_BUCKET_NAME"), input.getFileName()));						
+				response =AppUtils.getNextPageResults(input, context,finalResults, response, object);
+
+				int pagesCount = input.getTotalRecords()/input.getPageSize();
+				if(pagesCount != 0 && pagesCount*input.getPageSize() < input.getTotalRecords())
+					pagesCount = pagesCount + 1;
+				response.setPages(pagesCount);
+				response.setTotalRecords(input.getTotalRecords());
+				response.setFileName(input.getFileName());
+				returnType.setResponse(response);
+
+			}else {
+				
+				returnType.setObjectNotExisted(true);
+			}
+			return returnType;
+		}catch(Exception e) {
+			
+		}
+		return returnType;
 	}
 
 }

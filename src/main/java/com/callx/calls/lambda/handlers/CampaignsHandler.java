@@ -8,14 +8,8 @@ import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import com.callx.aws.athena.querys.DynamicGranularQuerysList;
 import com.callx.aws.athena.querys.DynamicQuerysList;
 import com.callx.aws.athena.querys.StaticReports;
@@ -25,6 +19,7 @@ import com.callx.aws.lambda.util.AppUtils;
 import com.callx.aws.lambda.util.CallXDateTimeConverterUtil;
 import com.callx.aws.lambda.util.JDBCConnection;
 import com.callx.aws.lambda.util.ResultSetMapper;
+import com.callx.aws.lambda.util.ReturnTypeCode;
 
 public class CampaignsHandler implements RequestHandler<Request, CallXReportsResponseDTO<List<GeneralReportDTO>>> {
 
@@ -34,7 +29,7 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 	@Override
 	public CallXReportsResponseDTO<List<GeneralReportDTO>> handleRequest(Request input, Context context) {
 		
-		context.getLogger().log("Input from Campaign Reports Handler : " + input+"\n");
+		context.getLogger().log("Input from Campaign Reports Handler @@@@ : " + input+"\n");
 
 		CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
 		
@@ -50,37 +45,17 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 		ResultSet rs = null;
 		
 		List<GeneralReportDTO> finalResults = new ArrayList<>();
-		//CallXReportsResponseDTO<List<GeneralReportDTO>> response = new CallXReportsResponseDTO<>();
 		boolean fileNotExisted = false;
 		
 		try {
-
 			// Get the input object and check for File Name. If the file is existed already, then get the data from that file.
 			if(!input.getFileName().isEmpty() && input.getFileName() != null) {
-				System.out.println("File existed  Name :"+input.getFileName());
-				// Get the file from S3 bucket.
-				BasicAWSCredentials awsCreds = new BasicAWSCredentials(System.getenv("ATHENA_USERNAME"), System.getenv("ATHENA_PASSWORD"));
-				AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-						.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-						.build();
-
-				boolean  isObjectExisted = s3Client.doesObjectExist("lambda-fission", input.getFileName());
-
-				System.out.println("Is Object Existed in S3 Bucket :"+isObjectExisted);
-				if(isObjectExisted) {
-					S3Object object = s3Client.getObject(new GetObjectRequest("lambda-fission", input.getFileName()));						
-					response =AppUtils.getNextPageResults(input, context,finalResults, response, object);
-
-					int pagesCount = input.getTotalRecords()/input.getPageSize();
-					if(pagesCount != 0 && pagesCount*input.getPageSize() < input.getTotalRecords())
-						pagesCount = pagesCount + 1;
-					response.setPages(pagesCount);
-					response.setTotalRecords(input.getTotalRecords());
-					response.setFileName(input.getFileName());
-
-				}else {
-					
+				ReturnTypeCode returnObj = AppUtils.getResultsFromExistedFile(input, context, finalResults, response);
+				
+				if(returnObj.isObjectNotExisted()) {
 					fileNotExisted = true;
+				}else {
+					response = returnObj.getResponse();
 				}
 			}
 
@@ -156,18 +131,17 @@ public class CampaignsHandler implements RequestHandler<Request, CallXReportsRes
 					context.getLogger().log("Before Returning Size of the CampaignReports : "+finalResults.size());
 					response  = AppUtils.getFirstPageResults(input, context,finalResults, response, fileName+".json");
 				}
-
-				if(finalResults.isEmpty()){
-					response.setStatusCode(200);
-					response.setTitle("no data");
-					response.setStatus("no data");
-				}else{
-					response.setStatusCode(200);
-					response.setTitle("success");
-					response.setStatus("success");
-				}
-				return response;
 			}
+			if(finalResults.isEmpty()){
+				response.setStatusCode(200);
+				response.setTitle("no data");
+				response.setStatus("no data");
+			}else{
+				response.setStatusCode(200);
+				response.setTitle("success");
+				response.setStatus("success");
+			}
+			return response;
 		}catch(Exception e) {
 			context.getLogger().log("Some error in CampaignReportsHandler : " + e.getMessage());
 			context.getLogger().log("Some error in CampaignReportsHandler : " + e);
