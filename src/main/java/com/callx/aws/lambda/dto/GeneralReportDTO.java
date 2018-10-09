@@ -36,13 +36,13 @@ public class GeneralReportDTO {
 	private BigDecimal paid_calls;
 	
 	@Column(name="offer_not_found")
-	private BigDecimal offer_not_found;
+	private boolean offer_not_found;
 	
 	@Column(name="total_revenue")
 	private BigDecimal revenue;
 	
 	@Column(name="publisher_revenue")
-	private BigDecimal publisher_revenue;
+	private Double publisher_revenue;
 	
 	@Column(name="profit")
 	private BigDecimal profit;
@@ -274,11 +274,11 @@ public class GeneralReportDTO {
 		this.paid_calls = paid_calls;
 	}
 
-	public BigDecimal getOffer_not_found() {
+	public boolean isOffer_not_found() {
 		return offer_not_found;
 	}
 
-	public void setOffer_not_found(BigDecimal offer_not_found) {
+	public void setOffer_not_found(boolean offer_not_found) {
 		this.offer_not_found = offer_not_found;
 	}
 
@@ -290,11 +290,11 @@ public class GeneralReportDTO {
 		this.revenue = revenue;
 	}
 
-	public BigDecimal getPublisher_revenue() {
+	public Double getPublisher_revenue() {
 		return publisher_revenue;
 	}
 
-	public void setPublisher_revenue(BigDecimal publisher_revenue) {
+	public void setPublisher_revenue(Double publisher_revenue) {
 		this.publisher_revenue = publisher_revenue;
 	}
 

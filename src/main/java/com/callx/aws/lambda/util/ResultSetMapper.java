@@ -41,7 +41,6 @@ public class ResultSetMapper<T> {
 							for (Field field : fields) {
 								i = i + 1;
 								
-								if (field.isAnnotationPresent(Column.class)) {
 									Column column = field.getAnnotation(Column.class);
 									if (column.name().equalsIgnoreCase(columnName)) {
 										
@@ -66,7 +65,6 @@ public class ResultSetMapper<T> {
 										}
 
 										break;
-									}
 								}
 							}
 						}
