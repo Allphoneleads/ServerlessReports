@@ -9,7 +9,7 @@ public class Request {
 	private String ref;
     private String refFrom;
     private String refTo;
-    private String isExport;
+    private boolean isExport;
     private String reportType;
     private String filterType;
     private String campaignId;
@@ -56,10 +56,10 @@ public class Request {
 	public void setRefTo(String refTo) {
 		this.refTo = refTo;
 	}
-	public String getIsExport() {
+	public boolean isExport() {
 		return isExport;
 	}
-	public void setIsExport(String isExport) {
+	public void setExport(boolean isExport) {
 		this.isExport = isExport;
 	}
 	public String getReportType() {
@@ -196,6 +196,7 @@ public class Request {
 				+ pageSize + ", pageNumber=" + pageNumber + ", totalRecords=" + totalRecords + ", fileName=" + fileName
 				+ ", warmEvent=" + warmEvent + "]";
 	}
+	
 	
 	
 	

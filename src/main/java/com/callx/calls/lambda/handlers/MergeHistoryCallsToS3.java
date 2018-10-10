@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -97,6 +99,12 @@ public class MergeHistoryCallsToS3  implements RequestHandler<ScheduledEvent, St
 			s3.putObject(destinationBucket+"/merged_file", "final_merged_file", new File(file.toString()));
 			System.out.println("After copy the same file in new folder for EMR.");
 
+			System.out.println("======= Before reading the no of lines =============");
+			S3Object object = s3Client.getObject(new GetObjectRequest(destinationBucket+"/merged_file", "final_merged_file"));
+			LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(object.getObjectContent()));
+			lineNumberReader.skip(Long.MAX_VALUE);
+			int lines = lineNumberReader.getLineNumber();
+			System.out.println("==== After reading the lines Count : "+lines);
 			
 		} catch (AmazonServiceException e) {
 			System.err.println(e.getErrorMessage());

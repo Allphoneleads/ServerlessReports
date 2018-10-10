@@ -1,27 +1,20 @@
 package com.callx.aws.lambda.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.io.OutputStream;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,8 +26,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.S3ClientOptions;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
@@ -47,7 +40,6 @@ import com.callx.aws.lambda.dto.GeneralReportDTO;
 import com.callx.calls.lambda.handlers.Request;
 import com.google.gson.Gson;
 
-import antlr.StringUtils;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
@@ -346,192 +338,5 @@ public class AppUtils {
 		return response;
 	}
 
-
-	public static CallXReportsResponseDTO<List<GeneralReportDTO>> createFolderAndResultsFile(String query, Request input, Context context, CallXReportsResponseDTO<List<GeneralReportDTO>> response) {
-
-		Connection conn = null;
-		Statement statement = null;
-		ResultSet rs = null;
-
-		try {
-
-			//Get the MD5 value from the String.
-			System.out.println(" Query String  : "+query);
-			System.out.println("\n");
-			
-			String md5Hex = DigestUtils.md5Hex(query);
-
-			System.out.println("=========> MD5HEX Value : "+md5Hex+"\n");
-			
-			AmazonS3 s3Client =  getS3ClientObject(context);
-			
-			List<S3ObjectSummary> summaries = new ArrayList<S3ObjectSummary>();
-			summaries  = getObjectSummaries(summaries, md5Hex, context);
-			
-			if (!summaries.isEmpty()) {
-				for(S3ObjectSummary obj : summaries) {
-					System.out.println("###########  Bucket Name :"+obj.getBucketName());
-					System.out.println("@@@@@@@@@@@ Object Name :"+obj.getKey());
-					
-				}
-				
-			// Create a new Folder and file with results.
-			}else {
-
-				System.out.println("==========  Specified Folder is not existed ========");
-				conn  = JDBCConnection.getConnection(md5Hex);
-				if(conn != null) {
-					statement = conn.createStatement();
-					rs = statement.executeQuery(query);
-					System.out.println("==========  After executed the query ==============");
-				}
-				//Create a new .TXT file and save the query into it.
-				System.out.println("From put Object :"+s3Client.putObject(System.getenv("S3_BUCKET_NAME")+"/"+md5Hex, "query.txt", query));
-
-
-				//Get the Object from the bucket and fetch the results.
-				String fileName = "";
-				summaries  = getObjectSummaries(summaries, md5Hex, context);
-				if (!summaries.isEmpty()) {
-					for(S3ObjectSummary obj : summaries) {
-						System.out.println(" ====== Object Name ====== :"+obj.getKey());
-						if(obj.getKey().split("/")[1].endsWith(".csv")) {
-							fileName = obj.getKey().split("/")[1];
-							break;
-						}
-					}
-				}
-				// After get the file name, get the object and feth the results data.
-				S3Object object = s3Client.getObject(new GetObjectRequest(System.getenv("S3_BUCKET_NAME")+"/"+md5Hex, fileName));
-				System.out.println(" File Name :"+object.getBucketName()+" :::::"+fileName);
-				
-	            ColumnPositionMappingStrategy<GeneralReportDTO> mappingStrategy = new ColumnPositionMappingStrategy<GeneralReportDTO>();
-	            mappingStrategy.setType(GeneralReportDTO.class);
-	          /* String[] columns = new String[]{"id","call_uuid","campaign_id","offerid","publisher_id","advertiser_id","to_number","from_number","offer_name","publisher_name","advertiser_name",
-	            								"description","call_type","answer_type","agent_id","from_line_type","from_state","from_city","from_country","from_zip","b_leg_duration","status",
-	            								"processed_ivr_keys","filter_id","duration","connected_duration","total_revenue","total_cost","total_profit","publisher_revenue","file_url","algo",
-	            								"keyword","keywordmatchtype","offer_not_found","filter_name","campaign_name","selected_ivr_keys","created_at" };*/
-	            
-	            
-	            //mappingStrategy.setColumnMapping(columns);
-	            
-	            CsvToBean<GeneralReportDTO> ctb = new CsvToBean<GeneralReportDTO>();
-	            
-				S3ObjectInputStream stream = object.getObjectContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-				List<GeneralReportDTO> dtoList = new ArrayList<GeneralReportDTO>();
-				String line ="";
-				int count = 0, firstLine = 0;
-				
-				String[] columns = new String[100];
-				while((line = reader.readLine()) != null) {
-					if(firstLine == 0) {
-						firstLine = firstLine + 1;
-						System.out.println("==========>>>>>>>====== "+line);
-						columns = (String[]) line.split(",");
-						System.out.println("########## : "+columns.length);
-						mappingStrategy.setColumnMapping(columns);
-						System.out.println("=============:::: "+columns[0]+" : "+columns[1]+" : "+columns[2]);
-						continue;
-					}
-					System.out.println("=============>>>>>>>> "+columns[0]+" : "+columns[1]+" : "+columns[2]);
-					count = count + 1;
-					if(count <= input.getPageSize()) {
-						List<GeneralReportDTO> dto = ctb.parse(mappingStrategy,new StringReader(line));
-						 System.out.println("=========== Id #####====== : "+dto.get(0).getId()+" ::: "+dto.get(0).getCampaign_id()+" ::: "+dto.get(0).getCampaign_name());
-						 dtoList.add(dto.get(0));
-						 
-					}else {
-						System.out.println("Before exist from the loop :"+count+" ::: "+dtoList.size());
-						break;
-					}
-				}
-				// Save the List of Objects into Response and send back.
-				response.setData(dtoList);
-			}
-			return response;
-			
-		}catch(Exception e) {
-			System.out.println("Error in createFolderAndResultsFile : " + e.getMessage());
-			context.getLogger().log("Error in createFolderAndResultsFile : " + e.getMessage());
-			context.getLogger().log("Error in createFolderAndResultsFile : " + e);
-		}finally {
-			DbUtils.closeQuietly(rs);
-			DbUtils.closeQuietly(statement);
-			DbUtils.closeQuietly(conn);
-		}
-
-		return response;
-	}
-
-
-	private static List<S3ObjectSummary> getObjectSummaries(List<S3ObjectSummary> summaries, String md5Hex,Context context) {
-
-		try {
-			
-			ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(System.getenv("S3_BUCKET_NAME")).withPrefix(md5Hex + "/");
-			System.out.println("====  List Object request with Folder =====>>>>>.: "+listObjectsRequest.getBucketName());
-
-			AmazonS3 s3Client = getS3ClientObject(context);
-			ObjectListing listing = s3Client.listObjects(listObjectsRequest);
-			summaries = listing.getObjectSummaries();
-
-			while (listing.isTruncated()) {
-				listing = s3Client.listNextBatchOfObjects(listing);
-				summaries.addAll(listing.getObjectSummaries());
-			}
-			return summaries;
-		}catch(Exception e) {
-			
-		}
-		return null;
-	}
-
-
-	private static AmazonS3 getS3ClientObject(Context context) {
-
-		try {
-			BasicAWSCredentials awsCreds = new BasicAWSCredentials(System.getenv("ATHENA_USERNAME"), System.getenv("ATHENA_PASSWORD"));
-			AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-					.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-					.build();
-			return s3Client;
-		}catch(Exception e) {
-			System.out.println("Error in getS3ClientObject : " + e.getMessage());
-			context.getLogger().log("Error in getS3ClientObject : " + e.getMessage());
-			context.getLogger().log("Error in getS3ClientObject : " + e);
-		}
-		return null;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
